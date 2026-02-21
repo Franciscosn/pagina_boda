@@ -14,7 +14,18 @@
       rel="stylesheet"
     />
     <script>
-      window.__assetVersion = Date.now().toString();
+      const currentUrl = new URL(window.location.href);
+      const navEntry = performance.getEntriesByType("navigation")[0];
+      const legacyNavType =
+        performance.navigation && performance.navigation.type === 1 ? "reload" : "navigate";
+      const navType = navEntry ? navEntry.type : legacyNavType;
+
+      if (!currentUrl.searchParams.has("v") || navType === "reload") {
+        currentUrl.searchParams.set("v", Date.now().toString());
+        window.location.replace(currentUrl.toString());
+      }
+
+      window.__assetVersion = currentUrl.searchParams.get("v") || Date.now().toString();
       document.write('<link rel="stylesheet" href="./styles.css?v=' + window.__assetVersion + '" />');
     </script>
   </head>
