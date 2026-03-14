@@ -122,14 +122,14 @@ body.reveal-locked {
   display: grid;
   justify-items: center;
   text-align: center;
-  gap: 0.46rem;
+  gap: 0.28rem;
 }
 
 .wedding-date {
-  margin: 0;
+  margin: 0 0 0.72rem;
   font-family: "Syne", "Outfit", sans-serif;
-  font-size: clamp(2.2rem, 9vw, 5.2rem);
-  line-height: 0.95;
+  font-size: clamp(2.45rem, 9.8vw, 5.9rem);
+  line-height: 0.92;
   letter-spacing: 0.04em;
   color: #ff2e57;
   text-shadow: 0 0 0 rgba(255, 46, 87, 0.45), 0 8px 18px rgba(255, 46, 87, 0.24);
@@ -138,23 +138,31 @@ body.reveal-locked {
 
 .wedding-location {
   margin: 0;
-  font-size: clamp(1.14rem, 3.3vw, 1.8rem);
-  font-weight: 600;
-  letter-spacing: 0.015em;
-  color: #262938;
+  font-family: "Syne", "Outfit", sans-serif;
+  font-size: clamp(1.95rem, 8.2vw, 4.4rem);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+  white-space: pre-line;
+  color: transparent;
+  background: linear-gradient(145deg, #e8c45d 0%, #ffd987 30%, #c6952f 62%, #f3db9a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 0 0 rgba(255, 212, 112, 0.35), 0 8px 24px rgba(171, 121, 22, 0.24);
+  animation: pulse-gold 1.52s ease-in-out infinite;
 }
 
 .wedding-story-title {
-  margin: 0.18rem 0 0;
+  margin: 0.28rem 0 0;
   font-family: "Syne", "Outfit", sans-serif;
-  font-size: clamp(2rem, 8.2vw, 4.6rem);
+  font-size: clamp(1.55rem, 6.2vw, 3.2rem);
   line-height: 0.98;
   letter-spacing: -0.02em;
   color: transparent;
   background: linear-gradient(130deg, #ff5dc4 0%, #ff3da8 43%, #ff7ad2 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  text-shadow: 0 10px 30px rgba(255, 68, 172, 0.28);
+  text-shadow: 0 8px 20px rgba(255, 68, 172, 0.24);
 }
 
 .chat-stage {
@@ -476,6 +484,28 @@ body.reveal-locked {
   }
 }
 
+@keyframes pulse-gold {
+  0%,
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(255, 212, 112, 0.35), 0 8px 24px rgba(171, 121, 22, 0.24);
+  }
+  16% {
+    transform: scale(1.06);
+    text-shadow: 0 0 18px rgba(255, 214, 118, 0.44), 0 10px 26px rgba(171, 121, 22, 0.3);
+  }
+  34% {
+    transform: scale(1);
+  }
+  52% {
+    transform: scale(1.04);
+    text-shadow: 0 0 14px rgba(255, 214, 118, 0.4), 0 9px 24px rgba(171, 121, 22, 0.28);
+  }
+  68% {
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 760px) {
   .top-hero {
     padding: 0.62rem 0.5rem 0.08rem;
@@ -499,20 +529,21 @@ body.reveal-locked {
 
   .wedding-intro {
     padding: 0.64rem 0.9rem 1rem;
-    gap: 0.34rem;
+    gap: 0.24rem;
   }
 
   .wedding-date {
-    font-size: clamp(1.9rem, 11vw, 2.8rem);
+    margin-bottom: 0.62rem;
+    font-size: clamp(2.25rem, 13vw, 3.4rem);
   }
 
   .wedding-location {
-    font-size: clamp(1rem, 5.5vw, 1.28rem);
+    font-size: clamp(1.56rem, 10vw, 2.5rem);
   }
 
   .wedding-story-title {
-    margin-top: 0.08rem;
-    font-size: clamp(1.55rem, 8.6vw, 2.5rem);
+    margin-top: 0.24rem;
+    font-size: clamp(1.28rem, 6.5vw, 2rem);
   }
 
   .chat-stage {
