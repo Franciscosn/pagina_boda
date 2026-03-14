@@ -28,6 +28,7 @@ const TEXT_BY_LOCALE = {
     topImageAlt: "Selfie eines Paares in den Bergen",
     trainImageAlt: "Zug auf dem Weg zur Hochzeit",
     boatImageAlt: "Boot auf dem Weg zur Hochzeit",
+    villaImageAlt: "Villa del Leyva in Kolumbien",
     directionsImageAlt: "Selfie eines Paares neben einem gelben Pfeil",
   },
   es: {
@@ -58,6 +59,7 @@ const TEXT_BY_LOCALE = {
     topImageAlt: "Selfie de una pareja en las montanas",
     trainImageAlt: "Tren viajando hacia la boda",
     boatImageAlt: "Barco viajando hacia la boda",
+    villaImageAlt: "Villa de Leyva en Colombia",
     directionsImageAlt: "Selfie de una pareja junto a una flecha amarilla",
   },
   en: {
@@ -88,6 +90,7 @@ const TEXT_BY_LOCALE = {
     topImageAlt: "Selfie of a couple in the mountains",
     trainImageAlt: "Train traveling to the wedding",
     boatImageAlt: "Boat traveling to the wedding",
+    villaImageAlt: "Villa de Leyva in Colombia",
     directionsImageAlt: "Selfie of a couple next to a yellow arrow",
   },
 };
@@ -152,6 +155,11 @@ applyVersionedImage(document.getElementById("trainImage"), {
 
 applyVersionedImage(document.getElementById("boatImage"), {
   alt: text.boatImageAlt,
+  fallbackPath: "../assets/directions-fallback.svg",
+});
+
+applyVersionedImage(document.getElementById("villaImage"), {
+  alt: text.villaImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
 });
 
