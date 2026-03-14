@@ -365,7 +365,8 @@ body.reveal-locked {
 
 .journey-media {
   margin: 0;
-  width: 100%;
+  width: min(100%, 560px);
+  margin-inline: auto;
   border-radius: 26px;
   border: 1px solid rgba(20, 23, 31, 0.1);
   overflow: hidden;
@@ -394,8 +395,19 @@ body.reveal-locked {
   color: #232736;
 }
 
+.directions-subtitle {
+  margin: 0.2rem 0 0;
+  text-align: center;
+  font-family: "Syne", "Outfit", sans-serif;
+  font-size: clamp(1.36rem, 4.2vw, 2.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: #1f2433;
+}
+
 .directions-media {
-  width: 100%;
+  width: min(100%, 560px);
+  margin-inline: auto;
   border-radius: 26px;
   border: 1px solid rgba(20, 23, 31, 0.1);
   overflow: hidden;
@@ -624,12 +636,17 @@ body.reveal-locked {
 
   .journey-media,
   .directions-media {
+    width: min(88vw, 340px);
     border-radius: 20px;
   }
 
   .journey-text {
     font-size: clamp(1rem, 5vw, 1.18rem);
     line-height: 1.35;
+  }
+
+  .directions-subtitle {
+    font-size: clamp(1.2rem, 7vw, 1.8rem);
   }
 
   .directions-location p {

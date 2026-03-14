@@ -22,12 +22,12 @@ const TEXT_BY_LOCALE = {
     journeyTextBoat: "oder per Flugzeug kommst...",
     journeyTextFinal:
       "Wir wuerden uns unglaublich freuen, wenn wir gemeinsam diesen schoenen Moment feiern koennten.",
+    directionsWhereTitle: "Aber, wo geht's hin?",
     directionsWhere: "Wo: Villa del Leyva, Kolumbien",
     directionsAirport: "Flughafen: Bogota",
     topImageAlt: "Selfie eines Paares in den Bergen",
     trainImageAlt: "Zug auf dem Weg zur Hochzeit",
     boatImageAlt: "Boot auf dem Weg zur Hochzeit",
-    planeImageAlt: "Flugzeug auf dem Weg zur Hochzeit",
     directionsImageAlt: "Selfie eines Paares neben einem gelben Pfeil",
   },
   es: {
@@ -52,12 +52,12 @@ const TEXT_BY_LOCALE = {
     journeyTextTrain: "Sabemos que Colombia esta muy lejos. Pero vengas en barco...",
     journeyTextBoat: "o llegues en avion...",
     journeyTextFinal: "Nos haria muchisima ilusion celebrar juntos este momento tan bonito.",
+    directionsWhereTitle: "Pero, adonde vamos?",
     directionsWhere: "Donde: Villa de Leyva, Colombia",
     directionsAirport: "Aeropuerto: Bogota",
     topImageAlt: "Selfie de una pareja en las montanas",
     trainImageAlt: "Tren viajando hacia la boda",
     boatImageAlt: "Barco viajando hacia la boda",
-    planeImageAlt: "Avion viajando hacia la boda",
     directionsImageAlt: "Selfie de una pareja junto a una flecha amarilla",
   },
   en: {
@@ -82,12 +82,12 @@ const TEXT_BY_LOCALE = {
     journeyTextTrain: "We know Colombia is very far away. But whether you come by boat...",
     journeyTextBoat: "or arrive by plane...",
     journeyTextFinal: "We would be incredibly happy if we could celebrate this beautiful moment together.",
+    directionsWhereTitle: "But where are we going?",
     directionsWhere: "Where: Villa de Leyva, Colombia",
     directionsAirport: "Airport: Bogota",
     topImageAlt: "Selfie of a couple in the mountains",
     trainImageAlt: "Train traveling to the wedding",
     boatImageAlt: "Boat traveling to the wedding",
-    planeImageAlt: "Plane traveling to the wedding",
     directionsImageAlt: "Selfie of a couple next to a yellow arrow",
   },
 };
@@ -152,11 +152,6 @@ applyVersionedImage(document.getElementById("trainImage"), {
 
 applyVersionedImage(document.getElementById("boatImage"), {
   alt: text.boatImageAlt,
-  fallbackPath: "../assets/directions-fallback.svg",
-});
-
-applyVersionedImage(document.getElementById("planeImage"), {
-  alt: text.planeImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
 });
 
