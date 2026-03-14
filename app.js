@@ -31,6 +31,13 @@ const TEXT_BY_LOCALE = {
     directionsMoreInfo: "mehr Infos kommen bald. Meldet euch gerne bei Fragen.",
     ctaComing: "Ich komme",
     ctaSorry: "Ich kann leider nicht",
+    ctaMaybe: "Ich weiss es noch nicht",
+    mailSubjectComing: "Zusage zur Hochzeit",
+    mailSubjectDecline: "Absage zur Hochzeit",
+    mailSubjectMaybe: "Ich weiss es noch nicht",
+    mailBodyComing: "Hallo,\nich komme zur Hochzeit.\n\nName:\nAnzahl Personen:\n",
+    mailBodyDecline: "Hallo,\nleider kann ich nicht zur Hochzeit kommen.\n\nName:\n",
+    mailBodyMaybe: "Hallo,\nich weiss es noch nicht.\n\nName:\n",
     topImageAlt: "Selfie eines Paares in den Bergen",
     trainImageAlt: "Zug auf dem Weg zur Hochzeit",
     boatImageAlt: "Boot auf dem Weg zur Hochzeit",
@@ -68,6 +75,13 @@ const TEXT_BY_LOCALE = {
     directionsMoreInfo: "Mas informacion pronto. Escribannos si tienen preguntas.",
     ctaComing: "Yo voy",
     ctaSorry: "No puedo ir",
+    ctaMaybe: "Aun no lo se",
+    mailSubjectComing: "Confirmacion de boda",
+    mailSubjectDecline: "No podre asistir a la boda",
+    mailSubjectMaybe: "Aun no lo se",
+    mailBodyComing: "Hola,\nsi podre asistir a la boda.\n\nNombre:\nNumero de personas:\n",
+    mailBodyDecline: "Hola,\nno podre asistir a la boda.\n\nNombre:\n",
+    mailBodyMaybe: "Hola,\naun no lo se.\n\nNombre:\n",
     topImageAlt: "Selfie de una pareja en las montanas",
     trainImageAlt: "Tren viajando hacia la boda",
     boatImageAlt: "Barco viajando hacia la boda",
@@ -105,6 +119,13 @@ const TEXT_BY_LOCALE = {
     directionsMoreInfo: "More info is coming soon. Feel free to contact us with any questions.",
     ctaComing: "I am coming",
     ctaSorry: "I cannot make it",
+    ctaMaybe: "I am not sure yet",
+    mailSubjectComing: "Wedding RSVP - Yes",
+    mailSubjectDecline: "Wedding RSVP - No",
+    mailSubjectMaybe: "Wedding RSVP - Not Sure Yet",
+    mailBodyComing: "Hi,\nI can attend the wedding.\n\nName:\nNumber of guests:\n",
+    mailBodyDecline: "Hi,\nI cannot attend the wedding.\n\nName:\n",
+    mailBodyMaybe: "Hi,\nI am not sure yet.\n\nName:\n",
     topImageAlt: "Selfie of a couple in the mountains",
     trainImageAlt: "Train traveling to the wedding",
     boatImageAlt: "Boat traveling to the wedding",
@@ -132,6 +153,36 @@ const applyTranslations = () => {
 };
 
 applyTranslations();
+
+const RSVP_EMAIL_ADDRESS = "boda@crelur.com";
+const RSVP_MAIL_KEYS_BY_INTENT = {
+  coming: { subjectKey: "mailSubjectComing", bodyKey: "mailBodyComing" },
+  decline: { subjectKey: "mailSubjectDecline", bodyKey: "mailBodyDecline" },
+  maybe: { subjectKey: "mailSubjectMaybe", bodyKey: "mailBodyMaybe" },
+};
+
+const openRsvpEmail = (intent) => {
+  const keys = RSVP_MAIL_KEYS_BY_INTENT[intent];
+
+  if (!keys) {
+    return;
+  }
+
+  const subject = text[keys.subjectKey] || "";
+  const body = text[keys.bodyKey] || "";
+  const mailtoUrl = `mailto:${RSVP_EMAIL_ADDRESS}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoUrl;
+};
+
+const bindRsvpButtons = () => {
+  document.querySelectorAll("[data-mail-intent]").forEach((button) => {
+    button.addEventListener("click", () => {
+      openRsvpEmail(button.getAttribute("data-mail-intent"));
+    });
+  });
+};
+
+bindRsvpButtons();
 
 const applyVersionedImage = (imageElement, options) => {
   if (!imageElement) {

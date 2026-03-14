@@ -556,6 +556,12 @@ body.reveal-locked {
   border-color: rgba(38, 44, 58, 0.18);
 }
 
+.direction-cta-neutral {
+  color: #4b5366;
+  background: rgba(255, 255, 255, 0.62);
+  border-color: rgba(38, 44, 58, 0.16);
+}
+
 @keyframes bubble-in {
   0% {
     opacity: 0;
