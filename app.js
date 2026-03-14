@@ -25,6 +25,7 @@ const TEXT_BY_LOCALE = {
     directionsCard2Body: "Vom Treffpunkt sind es nur wenige Minuten.",
     directionsCard3Title: "Falls ihr euch verfahrt",
     directionsCard3Body: "Schreibt uns kurz auf WhatsApp, wir helfen sofort.",
+    topImageAlt: "Selfie eines Paares in den Bergen",
     directionsImageAlt: "Selfie eines Paares neben einem gelben Pfeil",
   },
   es: {
@@ -53,6 +54,7 @@ const TEXT_BY_LOCALE = {
     directionsCard2Body: "Desde el punto de encuentro son solo unos minutos.",
     directionsCard3Title: "Si se pierden",
     directionsCard3Body: "Escribannos por WhatsApp y les ayudamos enseguida.",
+    topImageAlt: "Selfie de una pareja en las montanas",
     directionsImageAlt: "Selfie de una pareja junto a una flecha amarilla",
   },
   en: {
@@ -81,6 +83,7 @@ const TEXT_BY_LOCALE = {
     directionsCard2Body: "It is only a few minutes from the meeting point.",
     directionsCard3Title: "If you get lost",
     directionsCard3Body: "Send us a quick WhatsApp message and we will help right away.",
+    topImageAlt: "Selfie of a couple in the mountains",
     directionsImageAlt: "Selfie of a couple next to a yellow arrow",
   },
 };
@@ -105,23 +108,40 @@ const applyTranslations = () => {
 
 applyTranslations();
 
-const directionsImage = document.getElementById("directionsImage");
-if (directionsImage) {
-  directionsImage.alt = text.directionsImageAlt || directionsImage.alt;
+const applyVersionedImage = (imageElement, options) => {
+  if (!imageElement) {
+    return;
+  }
 
-  const imageUrl = new URL(directionsImage.getAttribute("src"), window.location.href);
+  if (options.alt) {
+    imageElement.alt = options.alt;
+  }
+
+  const imageUrl = new URL(imageElement.getAttribute("src"), window.location.href);
   imageUrl.searchParams.set("v", window.__assetVersion || Date.now().toString());
-  directionsImage.src = imageUrl.toString();
+  imageElement.src = imageUrl.toString();
 
-  directionsImage.addEventListener("error", () => {
-    if (directionsImage.dataset.fallbackLoaded === "1") {
+  imageElement.addEventListener("error", () => {
+    if (imageElement.dataset.fallbackLoaded === "1") {
       return;
     }
 
-    directionsImage.dataset.fallbackLoaded = "1";
-    directionsImage.src = `../assets/directions-fallback.svg?v=${window.__assetVersion || Date.now().toString()}`;
+    imageElement.dataset.fallbackLoaded = "1";
+    imageElement.src = `${options.fallbackPath}?v=${window.__assetVersion || Date.now().toString()}`;
   });
-}
+};
+
+const topHeroImage = document.getElementById("topHeroImage");
+applyVersionedImage(topHeroImage, {
+  alt: text.topImageAlt,
+  fallbackPath: "../assets/top-hero-fallback.svg",
+});
+
+const directionsImage = document.getElementById("directionsImage");
+applyVersionedImage(directionsImage, {
+  alt: text.directionsImageAlt,
+  fallbackPath: "../assets/directions-fallback.svg",
+});
 
 const thread = document.getElementById("chatThread");
 if (!thread) {

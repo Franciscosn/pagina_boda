@@ -1,8 +1,8 @@
-# Directions Image
+# Image Files
 
-To use your real photo in the Directions section, add this file:
+Add your real photos with these exact filenames:
 
-- `assets/directions-start.jpg`
+- `assets/top-hero.jpg` -> big image shown at the very top of `/de/`, `/es/`, `/en/`
+- `assets/directions-start.jpg` -> first image in the `Directions` section
 
-The website will load this image automatically in all language variants (`/de/`, `/es/`, `/en/`).
-If the file is missing, a fallback graphic is shown.
+If either image is missing, the page shows a fallback graphic.

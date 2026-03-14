@@ -66,6 +66,28 @@ body.reveal-locked {
   z-index: 1;
 }
 
+.top-hero {
+  padding: 1rem 1.2rem 0.2rem;
+  display: grid;
+  place-items: center;
+}
+
+.top-hero-media {
+  width: min(94vw, 860px);
+  border-radius: 32px;
+  border: 1px solid rgba(18, 20, 28, 0.1);
+  overflow: hidden;
+  box-shadow: 0 20px 56px rgba(8, 14, 30, 0.22);
+  background: #f2f4f8;
+}
+
+.top-hero-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
 .language-switch {
   position: sticky;
   top: 0.7rem;
@@ -422,6 +444,15 @@ body.reveal-locked {
 }
 
 @media (max-width: 760px) {
+  .top-hero {
+    padding: 0.62rem 0.5rem 0.2rem;
+  }
+
+  .top-hero-media {
+    width: calc(100vw - 1rem);
+    border-radius: 22px;
+  }
+
   .language-switch {
     top: 0.4rem;
     padding-top: 0.62rem;

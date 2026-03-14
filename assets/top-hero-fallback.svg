@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Top hero fallback</title>
+  <desc id="desc">Fallback artwork for the top website image.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8bb7ff"/>
+      <stop offset="68%" stop-color="#9dcbff"/>
+      <stop offset="100%" stop-color="#bfdcff"/>
+    </linearGradient>
+    <linearGradient id="hills" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#89a56a"/>
+      <stop offset="100%" stop-color="#6f8657"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1200" fill="url(#sky)"/>
+  <path d="M0 680C240 520 320 500 520 540C760 588 860 450 1090 430C1270 416 1390 486 1600 620V1200H0Z" fill="url(#hills)"/>
+  <path d="M0 770C180 690 390 690 620 770C760 818 930 806 1110 744C1310 674 1460 676 1600 726V1200H0Z" fill="#61784a" opacity="0.72"/>
+
+  <circle cx="660" cy="635" r="118" fill="#2d2f37"/>
+  <circle cx="945" cy="622" r="128" fill="#2b2e37"/>
+  <path d="M460 1110c50-250 146-388 292-388s242 138 294 388H460z" fill="#1f2129"/>
+  <path d="M838 1110c48-258 150-402 304-402 152 0 256 144 310 402H838z" fill="#1d2028"/>
+
+  <rect x="182" y="84" width="1238" height="178" rx="58" fill="#ffffffe8"/>
+  <text x="801" y="173" font-family="Outfit, Avenir, sans-serif" font-size="58" text-anchor="middle" fill="#152032">
+    Add your top photo as assets/top-hero.jpg
+  </text>
+</svg>
