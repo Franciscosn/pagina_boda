@@ -2,6 +2,7 @@ const TEXT_BY_LOCALE = {
   de: {
     pageTitle: "Unsere Geschichte",
     status: "Online 7/01/25 ⚡",
+    inviteLead: "Wir laden ein zur:",
     weddingDate: "9.1.27",
     weddingDatePrefix: "am",
     weddingLocation: "Hochzeit\nin Kolumbien",
@@ -35,6 +36,7 @@ const TEXT_BY_LOCALE = {
   es: {
     pageTitle: "Nuestra historia",
     status: "En linea 7/01/25 ⚡",
+    inviteLead: "Les invitamos a:",
     weddingDate: "9.1.27",
     weddingDatePrefix: "el",
     weddingLocation: "Boda\nen Colombia",
@@ -67,6 +69,7 @@ const TEXT_BY_LOCALE = {
   en: {
     pageTitle: "Our Story",
     status: "Online 7/01/25 ⚡",
+    inviteLead: "We invite you to:",
     weddingDate: "9.1.27",
     weddingDatePrefix: "on",
     weddingLocation: "Wedding\nin Colombia",
