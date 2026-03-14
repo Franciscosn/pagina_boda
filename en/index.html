@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Our Story</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="alternate" hreflang="de" href="https://franciscosn.github.io/pagina_boda/de/" />
+    <link rel="alternate" hreflang="es" href="https://franciscosn.github.io/pagina_boda/es/" />
+    <link rel="alternate" hreflang="en" href="https://franciscosn.github.io/pagina_boda/en/" />
+    <script>
+      const currentUrl = new URL(window.location.href);
+      const navEntry = performance.getEntriesByType("navigation")[0];
+      const legacyNavType =
+        performance.navigation && performance.navigation.type === 1 ? "reload" : "navigate";
+      const navType = navEntry ? navEntry.type : legacyNavType;
+
+      if (!currentUrl.searchParams.has("v") || navType === "reload") {
+        currentUrl.searchParams.set("v", Date.now().toString());
+        window.location.replace(currentUrl.toString());
+      }
+
+      window.__assetVersion = currentUrl.searchParams.get("v") || Date.now().toString();
+      document.write('<link rel="stylesheet" href="../styles.css?v=' + window.__assetVersion + '" />');
+    </script>
+  </head>
+  <body>
+    <div class="ambient-glow glow-one"></div>
+    <div class="ambient-glow glow-two"></div>
+
+    <main class="stage">
+      <nav class="language-switch" aria-label="Language switcher">
+        <a href="../de/" lang="de">DE</a>
+        <a href="../es/" lang="es">ES</a>
+        <a href="../en/" class="is-active" lang="en">EN</a>
+      </nav>
+
+      <section class="chat-stage">
+        <section class="phone">
+          <header class="chat-topbar">
+            <button class="icon-btn" aria-label="Zurueck">←</button>
+
+            <div class="profile">
+              <div class="avatar">K</div>
+              <div class="profile-meta">
+                <p class="name">Katherine</p>
+                <p class="status" data-i18n="status">Online 7/01/25 ⚡</p>
+              </div>
+            </div>
+
+            <div class="topbar-actions" aria-hidden="true">
+              <span>◦◦◦</span>
+            </div>
+          </header>
+
+          <section class="chat-thread" id="chatThread" aria-live="polite">
+            <p class="timestamp reveal-item" data-i18n="ts1">6/01/2024, 11:48</p>
+
+            <article class="message incoming reveal-item" data-i18n="m1">
+              Hallo Francisco! :) Ich bin eine native Spanischsprecherin, die ihr Deutsch verbessern
+              moechte 👉🏻👈🏻
+            </article>
+
+            <article class="message incoming reveal-item" data-i18n="m2">Wir koennten uns helfen ✨</article>
+
+            <article class="message outgoing reveal-item" data-i18n="m3">
+              Hallo Katherine :) Ja, das waere eine super Idee. Dein Deutsch scheint schon ziemlich
+              gut.
+            </article>
+
+            <article class="message outgoing reveal-item" data-i18n="m4">Wo bist du aufgewachsen?</article>
+
+            <article class="message outgoing reveal-item" data-i18n="m5">Falls ich fragen darf :)</article>
+
+            <p class="timestamp reveal-item" data-i18n="ts2">6/01/2024, 14:31</p>
+
+            <article class="message incoming reveal-item" data-i18n="m6">Es ist a kleine Baby deutsch haha</article>
+
+            <article class="message incoming reveal-item" data-i18n="m7">Kolumbien, und du?</article>
+
+            <article class="message incoming reveal-item" data-i18n="m8">
+              Kein Problem! Ich glaube, viele Menschen hier in Berlin kommen aus vielen anderen
+              Teilen der Welt.
+            </article>
+
+            <p class="timestamp reveal-item" data-i18n="ts3">6/01/2024, 15:53</p>
+
+            <article class="message outgoing reveal-item" data-i18n="m9">haha baby deutsch.</article>
+          </section>
+        </section>
+      </section>
+
+      <section class="story-section" id="storySection">
+        <p class="story-eyebrow" data-i18n="storyEyebrow">Unsere Story</p>
+        <h1 class="story-title" data-i18n="storyTitle">So fing naemlich alles an</h1>
+      </section>
+
+      <section class="directions-section" id="directionsSection">
+        <div class="directions-media">
+          <img
+            class="directions-image"
+            id="directionsImage"
+            src="../assets/directions-start.jpg"
+            alt="Selfie eines Paares neben einem gelben Pfeil"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="directions-content">
+          <p class="directions-eyebrow" data-i18n="directionsEyebrow">Anfahrt</p>
+          <h2 class="directions-title" data-i18n="directionsTitle">Folgt den gelben Pfeilen</h2>
+          <p class="directions-lead" data-i18n="directionsLead">
+            Am Hochzeitstag zeigen euch gelbe Pfeile den Weg zur Location.
+          </p>
+
+          <div class="directions-grid">
+            <article class="directions-card">
+              <h3 data-i18n="directionsCard1Title">Mit dem Auto</h3>
+              <p data-i18n="directionsCard1Body">Parkplaetze in der Naehe sind ausgeschildert.</p>
+            </article>
+
+            <article class="directions-card">
+              <h3 data-i18n="directionsCard2Title">Zu Fuss</h3>
+              <p data-i18n="directionsCard2Body">Vom Treffpunkt sind es nur wenige Minuten.</p>
+            </article>
+
+            <article class="directions-card">
+              <h3 data-i18n="directionsCard3Title">Falls ihr euch verfahrt</h3>
+              <p data-i18n="directionsCard3Body">Schreibt uns kurz auf WhatsApp, wir helfen sofort.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const appScript = document.createElement("script");
+      appScript.src = "../app.js?v=" + window.__assetVersion;
+      document.body.appendChild(appScript);
+    </script>
+  </body>
+</html>

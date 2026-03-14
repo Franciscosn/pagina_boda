@@ -1,104 +1,130 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>Unsere Geschichte</title>
+    <title>Wedding Website Languages</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
       rel="stylesheet"
     />
-    <script>
-      const currentUrl = new URL(window.location.href);
-      const navEntry = performance.getEntriesByType("navigation")[0];
-      const legacyNavType =
-        performance.navigation && performance.navigation.type === 1 ? "reload" : "navigate";
-      const navType = navEntry ? navEntry.type : legacyNavType;
-
-      if (!currentUrl.searchParams.has("v") || navType === "reload") {
-        currentUrl.searchParams.set("v", Date.now().toString());
-        window.location.replace(currentUrl.toString());
+    <style>
+      :root {
+        --bg-1: #f9eee7;
+        --bg-2: #eff8ff;
+        --card: rgba(255, 255, 255, 0.72);
+        --text: #13141a;
+        --muted: #6f7480;
+        --accent: #ff4aa4;
       }
 
-      window.__assetVersion = currentUrl.searchParams.get("v") || Date.now().toString();
-      document.write('<link rel="stylesheet" href="./styles.css?v=' + window.__assetVersion + '" />');
-    </script>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Outfit", "Avenir Next", "Helvetica Neue", sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at 14% 8%, #ffd9c8 0%, transparent 35%),
+          radial-gradient(circle at 88% 90%, #d6efff 0%, transparent 38%),
+          linear-gradient(140deg, var(--bg-1), #fcf7f2 44%, var(--bg-2));
+        display: grid;
+        place-items: center;
+        padding: 1.2rem;
+      }
+
+      main {
+        width: min(96vw, 740px);
+        border-radius: 30px;
+        background: var(--card);
+        border: 1px solid rgba(18, 19, 24, 0.08);
+        box-shadow: 0 18px 55px rgba(12, 19, 41, 0.14);
+        backdrop-filter: blur(8px);
+        padding: clamp(1.2rem, 4vw, 2.3rem);
+      }
+
+      .eyebrow {
+        margin: 0;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #b16e97;
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
+      h1 {
+        margin: 0.45rem 0 0;
+        font-family: "Syne", "Outfit", sans-serif;
+        font-size: clamp(2rem, 6vw, 3.8rem);
+        line-height: 0.95;
+        color: transparent;
+        background: linear-gradient(135deg, #ff4ab0 0%, #ff2f83 40%, #ff65bb 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      p {
+        margin: 0.95rem 0 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 2.2vw, 1.14rem);
+      }
+
+      .lang-list {
+        margin-top: 1.35rem;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.7rem;
+      }
+
+      .lang-link {
+        text-decoration: none;
+        border-radius: 16px;
+        border: 1px solid rgba(24, 28, 36, 0.12);
+        background: #ffffff;
+        color: var(--text);
+        padding: 0.8rem 0.75rem;
+        font-weight: 700;
+        font-size: 1.02rem;
+        text-align: center;
+      }
+
+      .lang-link:hover {
+        transform: translateY(-1px);
+      }
+
+      .link-note {
+        margin-top: 1rem;
+        color: #616774;
+        font-size: 0.94rem;
+      }
+
+      @media (max-width: 760px) {
+        .lang-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div class="ambient-glow glow-one"></div>
-    <div class="ambient-glow glow-two"></div>
+    <main>
+      <p class="eyebrow">Wedding Website</p>
+      <h1>Choose Language</h1>
+      <p>Send your guests one dedicated link per language.</p>
 
-    <main class="stage">
-      <section class="chat-stage">
-        <section class="phone">
-          <header class="chat-topbar">
-            <button class="icon-btn" aria-label="Zurueck">←</button>
+      <div class="lang-list">
+        <a class="lang-link" href="./de/">Deutsch</a>
+        <a class="lang-link" href="./es/">Español</a>
+        <a class="lang-link" href="./en/">English</a>
+      </div>
 
-            <div class="profile">
-              <div class="avatar">K</div>
-              <div class="profile-meta">
-                <p class="name">Katherine</p>
-                <p class="status">Online 7/01/25 ⚡</p>
-              </div>
-            </div>
-
-            <div class="topbar-actions" aria-hidden="true">
-              <span>◦◦◦</span>
-            </div>
-          </header>
-
-          <section class="chat-thread" id="chatThread" aria-live="polite">
-            <p class="timestamp reveal-item">6/01/2024, 11:48</p>
-
-            <article class="message incoming reveal-item">
-              Hallo Francisco! :) Ich bin eine Native Spanischsprecherin, die ihr Deutsch
-              verbessern moechte 👉🏻👈🏻
-            </article>
-
-            <article class="message incoming reveal-item">Wir koennten uns helfen ✨</article>
-
-            <article class="message outgoing reveal-item">
-              Hallo Katherine :) ja das waere eine super Idee. Dein Deutsch scheint schon
-              ziemlich gut.
-            </article>
-
-            <article class="message outgoing reveal-item">Wo bist du aufgewachsen?</article>
-
-            <article class="message outgoing reveal-item">falls ich fragen darf :)</article>
-
-            <p class="timestamp reveal-item">6/01/2024, 14:31</p>
-
-            <article class="message incoming reveal-item">Es ist a kleine Baby deutsch haha</article>
-
-            <article class="message incoming reveal-item">Kolumbien, und du?</article>
-
-            <article class="message incoming reveal-item">
-              Kein Problem! Ich glaube, viele Menschen hier in Berlin kommen aus vielen
-              anderen Teilen der Welt.
-            </article>
-
-            <p class="timestamp reveal-item">6/01/2024, 15:53</p>
-
-            <article class="message outgoing reveal-item">haha baby deutsch.</article>
-          </section>
-        </section>
-      </section>
-
-      <section class="story-section" id="storySection">
-        <p class="story-eyebrow">Unsere Story</p>
-        <h1 class="story-title">So fing nämlich alles an</h1>
-      </section>
+      <p class="link-note">Each page refreshes with a fresh version to avoid stale cache.</p>
     </main>
-
-    <script>
-      const appScript = document.createElement("script");
-      appScript.src = "./app.js?v=" + window.__assetVersion;
-      document.body.appendChild(appScript);
-    </script>
   </body>
 </html>

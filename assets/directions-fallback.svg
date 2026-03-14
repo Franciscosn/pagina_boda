@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" role="img" aria-labelledby="title desc">
+  <title id="title">Directions placeholder image</title>
+  <desc id="desc">A fallback visual with sky, a couple silhouette, and a yellow arrow sign.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4e9eff"/>
+      <stop offset="68%" stop-color="#7ec0ff"/>
+      <stop offset="100%" stop-color="#bcdfff"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a7c38d"/>
+      <stop offset="100%" stop-color="#7b9d63"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1300" fill="url(#sky)"/>
+  <rect y="1300" width="1200" height="300" fill="url(#ground)"/>
+  <rect x="560" y="180" width="92" height="1080" rx="6" fill="#d3d0ca"/>
+  <rect x="600" y="170" width="26" height="1110" rx="9" fill="#1e2533"/>
+  <path d="M640 430h240l-44 86h44l-172 116-68-116h56z" fill="#f8cf29"/>
+  <circle cx="315" cy="1088" r="122" fill="#2f2f37"/>
+  <circle cx="900" cy="1028" r="124" fill="#2f2f37"/>
+  <path d="M168 1522c36-206 126-330 268-330 140 0 230 124 266 330H168z" fill="#25272f"/>
+  <path d="M742 1522c32-216 124-344 278-344 152 0 242 128 278 344H742z" fill="#24262e"/>
+  <rect x="140" y="72" width="920" height="132" rx="52" fill="#ffffffde"/>
+  <text x="600" y="146" font-family="Outfit, Avenir, sans-serif" font-size="56" text-anchor="middle" fill="#1d2330">
+    Add your real directions photo as
+  </text>
+  <text x="600" y="218" font-family="Outfit, Avenir, sans-serif" font-size="54" text-anchor="middle" fill="#1a7cf0">
+    assets/directions-start.jpg
+  </text>
+</svg>
