@@ -1,6 +1,6 @@
 const TEXT_BY_LOCALE = {
   de: {
-    pageTitle: "Unsere Geschichte",
+    pageTitle: "Einladung zur Hochzeit",
     status: "Online 7/01/25 ⚡",
     inviteLead: "Wir laden ein zur:",
     weddingDate: "9.1.27",
@@ -38,7 +38,7 @@ const TEXT_BY_LOCALE = {
     directionsImageAlt: "Selfie eines Paares neben einem gelben Pfeil",
   },
   es: {
-    pageTitle: "Nuestra historia",
+    pageTitle: "Invitacion a la boda",
     status: "En linea 7/01/25 ⚡",
     inviteLead: "Les invitamos a:",
     weddingDate: "9.1.27",
@@ -75,7 +75,7 @@ const TEXT_BY_LOCALE = {
     directionsImageAlt: "Selfie de una pareja junto a una flecha amarilla",
   },
   en: {
-    pageTitle: "Our Story",
+    pageTitle: "Wedding Invite",
     status: "Online 7/01/25 ⚡",
     inviteLead: "We invite you to:",
     weddingDate: "9.1.27",
