@@ -117,11 +117,52 @@ body.reveal-locked {
   border-color: #1a7cf0;
 }
 
+.wedding-intro {
+  padding: 0.9rem 1.2rem 1.65rem;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.46rem;
+}
+
+.wedding-date {
+  margin: 0;
+  font-family: "Syne", "Outfit", sans-serif;
+  font-size: clamp(2.2rem, 9vw, 5.2rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  color: #ff2e57;
+  text-shadow: 0 0 0 rgba(255, 46, 87, 0.45), 0 8px 18px rgba(255, 46, 87, 0.24);
+  animation: heartbeat 1.38s ease-in-out infinite;
+}
+
+.wedding-location {
+  margin: 0;
+  font-size: clamp(1.14rem, 3.3vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  color: #262938;
+}
+
+.wedding-story-title {
+  margin: 0.18rem 0 0;
+  font-family: "Syne", "Outfit", sans-serif;
+  font-size: clamp(2rem, 8.2vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: transparent;
+  background: linear-gradient(130deg, #ff5dc4 0%, #ff3da8 43%, #ff7ad2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 10px 30px rgba(255, 68, 172, 0.28);
+}
+
 .chat-stage {
   min-height: 100vh;
-  padding: 3.1vh 1.2rem 5vh;
+  padding: 1.2rem 1.2rem 5.2vh;
   display: grid;
-  place-items: center;
+  justify-items: center;
+  align-items: start;
 }
 
 .phone {
@@ -277,46 +318,6 @@ body.reveal-locked {
   animation: float-up 540ms ease both;
 }
 
-.story-section {
-  min-height: 100vh;
-  padding: 9vh 1.2rem 14vh;
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(42px) scale(0.96);
-  transition: opacity 880ms ease, transform 880ms cubic-bezier(0.2, 0.74, 0.18, 1);
-}
-
-.story-section.is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.story-eyebrow {
-  margin: 0 0 1rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: #b56a96;
-  font-size: clamp(0.78rem, 2vw, 1rem);
-}
-
-.story-title {
-  margin: 0;
-  font-family: "Syne", "Outfit", sans-serif;
-  font-size: clamp(2.3rem, 11vw, 7.6rem);
-  line-height: 0.96;
-  letter-spacing: -0.02em;
-  max-width: 12ch;
-  color: transparent;
-  background: linear-gradient(138deg, #ff4ab0 0%, #ff2f83 34%, #ff6dbf 66%, #ff3495 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  text-shadow: 0 8px 28px rgba(255, 72, 165, 0.25);
-}
-
 .directions-section {
   min-height: 100vh;
   padding: 5vh 1.2rem 12vh;
@@ -443,9 +444,32 @@ body.reveal-locked {
   }
 }
 
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(255, 46, 87, 0.5), 0 8px 18px rgba(255, 46, 87, 0.22);
+  }
+  13% {
+    transform: scale(1.11);
+    text-shadow: 0 0 22px rgba(255, 46, 87, 0.5), 0 12px 24px rgba(255, 46, 87, 0.32);
+  }
+  26% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.08);
+    text-shadow: 0 0 20px rgba(255, 46, 87, 0.44), 0 10px 22px rgba(255, 46, 87, 0.3);
+  }
+  56%,
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(255, 46, 87, 0.5), 0 8px 18px rgba(255, 46, 87, 0.22);
+  }
+}
+
 @media (max-width: 760px) {
   .top-hero {
-    padding: 0.62rem 0.5rem 0.2rem;
+    padding: 0.62rem 0.5rem 0.08rem;
   }
 
   .top-hero-media {
@@ -464,13 +488,31 @@ body.reveal-locked {
     padding: 0.28rem 0.5rem;
   }
 
+  .wedding-intro {
+    padding: 0.64rem 0.9rem 1rem;
+    gap: 0.34rem;
+  }
+
+  .wedding-date {
+    font-size: clamp(1.9rem, 11vw, 2.8rem);
+  }
+
+  .wedding-location {
+    font-size: clamp(1rem, 5.5vw, 1.28rem);
+  }
+
+  .wedding-story-title {
+    margin-top: 0.08rem;
+    font-size: clamp(1.55rem, 8.6vw, 2.5rem);
+  }
+
   .chat-stage {
     min-height: 100dvh;
-    padding: 0 0 1rem;
+    padding: 0.22rem 0 1rem;
   }
 
   .phone {
-    height: calc(100dvh - 3.2rem);
+    height: calc(100dvh - 2rem);
     width: calc(100vw - 1rem);
     max-width: calc(100vw - 1rem);
     border-radius: 22px;
@@ -525,10 +567,6 @@ body.reveal-locked {
 
   .outgoing {
     max-width: 78%;
-  }
-
-  .story-section {
-    padding: 8vh 0.9rem 12vh;
   }
 
   .directions-section {

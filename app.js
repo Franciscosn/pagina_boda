@@ -2,6 +2,9 @@ const TEXT_BY_LOCALE = {
   de: {
     pageTitle: "Unsere Geschichte",
     status: "Online 7/01/25 ⚡",
+    weddingDate: "9.1.27",
+    weddingLocation: "Hochzeit in Kolumbien",
+    storyTitle: "so fing alles an",
     ts1: "6/01/2024, 11:48",
     ts2: "6/01/2024, 14:31",
     ts3: "6/01/2024, 15:53",
@@ -14,8 +17,6 @@ const TEXT_BY_LOCALE = {
     m7: "Kolumbien, und du?",
     m8: "Kein Problem! Ich glaube, viele Menschen hier in Berlin kommen aus vielen anderen Teilen der Welt.",
     m9: "haha baby deutsch.",
-    storyEyebrow: "Unsere Story",
-    storyTitle: "So fing naemlich alles an",
     directionsEyebrow: "Directions",
     directionsTitle: "Folgt den gelben Pfeilen",
     directionsLead: "Am Hochzeitstag zeigen euch gelbe Pfeile den Weg zur Location.",
@@ -31,6 +32,9 @@ const TEXT_BY_LOCALE = {
   es: {
     pageTitle: "Nuestra historia",
     status: "En linea 7/01/25 ⚡",
+    weddingDate: "9.1.27",
+    weddingLocation: "Boda en Colombia",
+    storyTitle: "asi empezo todo",
     ts1: "6/01/2024, 11:48",
     ts2: "6/01/2024, 14:31",
     ts3: "6/01/2024, 15:53",
@@ -43,8 +47,6 @@ const TEXT_BY_LOCALE = {
     m7: "Colombia, y tu?",
     m8: "No pasa nada! Creo que mucha gente aqui en Berlin viene de otras partes del mundo.",
     m9: "jaja aleman bebe.",
-    storyEyebrow: "Nuestra historia",
-    storyTitle: "Asi empezo todo",
     directionsEyebrow: "Directions",
     directionsTitle: "Sigan las flechas amarillas",
     directionsLead: "El dia de la boda, las flechas amarillas les guiaran directo al lugar.",
@@ -60,6 +62,9 @@ const TEXT_BY_LOCALE = {
   en: {
     pageTitle: "Our Story",
     status: "Online 7/01/25 ⚡",
+    weddingDate: "9.1.27",
+    weddingLocation: "Wedding in Colombia",
+    storyTitle: "this is how it all started",
     ts1: "6/01/2024, 11:48",
     ts2: "6/01/2024, 14:31",
     ts3: "6/01/2024, 15:53",
@@ -72,8 +77,6 @@ const TEXT_BY_LOCALE = {
     m7: "Colombia, and you?",
     m8: "No problem! I think many people here in Berlin come from many different parts of the world.",
     m9: "haha baby German.",
-    storyEyebrow: "Our Story",
-    storyTitle: "That is how it all started",
     directionsEyebrow: "Directions",
     directionsTitle: "Follow the yellow arrows",
     directionsLead: "On the wedding day, yellow arrows will guide you straight to the venue.",
@@ -131,35 +134,55 @@ const applyVersionedImage = (imageElement, options) => {
   });
 };
 
-const topHeroImage = document.getElementById("topHeroImage");
-applyVersionedImage(topHeroImage, {
+applyVersionedImage(document.getElementById("topHeroImage"), {
   alt: text.topImageAlt,
   fallbackPath: "../assets/top-hero-fallback.svg",
 });
 
-const directionsImage = document.getElementById("directionsImage");
-applyVersionedImage(directionsImage, {
+applyVersionedImage(document.getElementById("directionsImage"), {
   alt: text.directionsImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
 });
 
 const thread = document.getElementById("chatThread");
-if (!thread) {
-  throw new Error("Chat thread not found");
+const chatPhone = document.getElementById("chatPhone");
+const directionsSection = document.getElementById("directionsSection");
+
+if (!thread || !chatPhone) {
+  throw new Error("Chat structure not found");
 }
 
 const revealItems = [...document.querySelectorAll(".reveal-item")];
-const storySection = document.getElementById("storySection");
-const directionsSection = document.getElementById("directionsSection");
 const urlParams = new URLSearchParams(window.location.search);
 const previewMode = urlParams.get("preview");
 
 let currentIndex = 0;
 let revealLocked = true;
 let revealCooldown = false;
+let revealModeActive = false;
 let touchStartY = null;
 
 const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const isChatFullyVisible = () => {
+  const rect = chatPhone.getBoundingClientRect();
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  const visible = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+  const visibilityRatio = visible / rect.height;
+  return visibilityRatio >= 0.87;
+};
+
+const syncRevealLockState = () => {
+  const shouldLock = revealLocked && isChatFullyVisible();
+
+  if (shouldLock === revealModeActive) {
+    return;
+  }
+
+  revealModeActive = shouldLock;
+  document.body.classList.toggle("reveal-locked", shouldLock);
+  thread.classList.toggle("reveal-locked", shouldLock);
+};
 
 const revealNow = (element) => {
   if (!element || element.classList.contains("is-visible")) {
@@ -176,6 +199,7 @@ const releaseScroll = () => {
   }
 
   revealLocked = false;
+  revealModeActive = false;
   document.body.classList.remove("reveal-locked");
   thread.classList.remove("reveal-locked");
   thread.classList.add("chat-complete");
@@ -194,8 +218,10 @@ const revealNext = () => {
 };
 
 const revealStepFromScroll = () => {
-  if (!revealLocked || revealCooldown) {
-    return;
+  syncRevealLockState();
+
+  if (!revealLocked || !revealModeActive || revealCooldown) {
+    return false;
   }
 
   revealCooldown = true;
@@ -208,19 +234,18 @@ const revealStepFromScroll = () => {
   window.setTimeout(() => {
     revealCooldown = false;
   }, isReducedMotion ? 90 : 350);
+
+  return true;
 };
 
 const onWheel = (event) => {
-  if (!revealLocked) {
-    return;
-  }
-
   if (Math.abs(event.deltaY) < 4) {
     return;
   }
 
-  event.preventDefault();
-  revealStepFromScroll();
+  if (revealStepFromScroll()) {
+    event.preventDefault();
+  }
 };
 
 const onTouchStart = (event) => {
@@ -228,10 +253,6 @@ const onTouchStart = (event) => {
 };
 
 const onTouchMove = (event) => {
-  if (!revealLocked) {
-    return;
-  }
-
   const currentY = event.touches[0]?.clientY;
   if (touchStartY === null || currentY === undefined) {
     return;
@@ -241,16 +262,14 @@ const onTouchMove = (event) => {
     return;
   }
 
-  event.preventDefault();
-  revealStepFromScroll();
+  if (revealStepFromScroll()) {
+    event.preventDefault();
+  }
+
   touchStartY = currentY;
 };
 
 const onKeyDown = (event) => {
-  if (!revealLocked) {
-    return;
-  }
-
   const isScrollKey = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Spacebar"].includes(
     event.key
   );
@@ -259,8 +278,9 @@ const onKeyDown = (event) => {
     return;
   }
 
-  event.preventDefault();
-  revealStepFromScroll();
+  if (revealStepFromScroll()) {
+    event.preventDefault();
+  }
 };
 
 const revealInitialItem = () => {
@@ -294,14 +314,15 @@ const observeSectionReveal = (section, threshold = 0.3) => {
   observer.observe(section);
 };
 
-document.body.classList.add("reveal-locked");
-thread.classList.add("reveal-locked");
 revealInitialItem();
+syncRevealLockState();
 
 window.addEventListener("wheel", onWheel, { passive: false });
 window.addEventListener("touchstart", onTouchStart, { passive: true });
 window.addEventListener("touchmove", onTouchMove, { passive: false });
 window.addEventListener("keydown", onKeyDown);
+window.addEventListener("scroll", syncRevealLockState, { passive: true });
+window.addEventListener("resize", syncRevealLockState);
 
 if (revealItems.length <= 1) {
   releaseScroll();
@@ -311,13 +332,9 @@ if (previewMode === "all") {
   revealItems.forEach((item) => item.classList.add("is-visible"));
   currentIndex = revealItems.length;
   releaseScroll();
-  if (storySection) {
-    storySection.classList.add("is-visible");
-  }
   if (directionsSection) {
     directionsSection.classList.add("is-visible");
   }
 }
 
-observeSectionReveal(storySection, 0.35);
 observeSectionReveal(directionsSection, 0.28);
