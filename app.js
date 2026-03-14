@@ -17,16 +17,17 @@ const TEXT_BY_LOCALE = {
     m7: "Kolumbien, und du?",
     m8: "Kein Problem! Ich glaube, viele Menschen hier in Berlin kommen aus vielen anderen Teilen der Welt.",
     m9: "haha baby deutsch.",
-    directionsEyebrow: "Directions",
-    directionsTitle: "Folgt den gelben Pfeilen",
-    directionsLead: "Am Hochzeitstag zeigen euch gelbe Pfeile den Weg zur Location.",
-    directionsCard1Title: "Mit dem Auto",
-    directionsCard1Body: "Parkplaetze in der Naehe sind ausgeschildert.",
-    directionsCard2Title: "Zu Fuss",
-    directionsCard2Body: "Vom Treffpunkt sind es nur wenige Minuten.",
-    directionsCard3Title: "Falls ihr euch verfahrt",
-    directionsCard3Body: "Schreibt uns kurz auf WhatsApp, wir helfen sofort.",
+    directionsQuestion: "Bist du bereit mit uns eine Reise anzutreten?",
+    journeyTextTrain: "Wir wissen Kolumbien ist sehr weit weg. Aber ob du per Boot...",
+    journeyTextBoat: "oder per Flugzeug kommst...",
+    journeyTextFinal:
+      "Wir wuerden uns unglaublich freuen, wenn wir gemeinsam diesen schoenen Moment feiern koennten.",
+    directionsWhere: "Wo: Villa del Leyva, Kolumbien",
+    directionsAirport: "Flughafen: Bogota",
     topImageAlt: "Selfie eines Paares in den Bergen",
+    trainImageAlt: "Zug auf dem Weg zur Hochzeit",
+    boatImageAlt: "Boot auf dem Weg zur Hochzeit",
+    planeImageAlt: "Flugzeug auf dem Weg zur Hochzeit",
     directionsImageAlt: "Selfie eines Paares neben einem gelben Pfeil",
   },
   es: {
@@ -47,16 +48,16 @@ const TEXT_BY_LOCALE = {
     m7: "Colombia, y tu?",
     m8: "No pasa nada! Creo que mucha gente aqui en Berlin viene de otras partes del mundo.",
     m9: "jaja aleman bebe.",
-    directionsEyebrow: "Directions",
-    directionsTitle: "Sigan las flechas amarillas",
-    directionsLead: "El dia de la boda, las flechas amarillas les guiaran directo al lugar.",
-    directionsCard1Title: "En coche",
-    directionsCard1Body: "Habra plazas de aparcamiento senalizadas cerca.",
-    directionsCard2Title: "A pie",
-    directionsCard2Body: "Desde el punto de encuentro son solo unos minutos.",
-    directionsCard3Title: "Si se pierden",
-    directionsCard3Body: "Escribannos por WhatsApp y les ayudamos enseguida.",
+    directionsQuestion: "Estas listo para emprender este viaje con nosotros?",
+    journeyTextTrain: "Sabemos que Colombia esta muy lejos. Pero vengas en barco...",
+    journeyTextBoat: "o llegues en avion...",
+    journeyTextFinal: "Nos haria muchisima ilusion celebrar juntos este momento tan bonito.",
+    directionsWhere: "Donde: Villa de Leyva, Colombia",
+    directionsAirport: "Aeropuerto: Bogota",
     topImageAlt: "Selfie de una pareja en las montanas",
+    trainImageAlt: "Tren viajando hacia la boda",
+    boatImageAlt: "Barco viajando hacia la boda",
+    planeImageAlt: "Avion viajando hacia la boda",
     directionsImageAlt: "Selfie de una pareja junto a una flecha amarilla",
   },
   en: {
@@ -77,16 +78,16 @@ const TEXT_BY_LOCALE = {
     m7: "Colombia, and you?",
     m8: "No problem! I think many people here in Berlin come from many different parts of the world.",
     m9: "haha baby German.",
-    directionsEyebrow: "Directions",
-    directionsTitle: "Follow the yellow arrows",
-    directionsLead: "On the wedding day, yellow arrows will guide you straight to the venue.",
-    directionsCard1Title: "By car",
-    directionsCard1Body: "Nearby parking spots will be marked.",
-    directionsCard2Title: "On foot",
-    directionsCard2Body: "It is only a few minutes from the meeting point.",
-    directionsCard3Title: "If you get lost",
-    directionsCard3Body: "Send us a quick WhatsApp message and we will help right away.",
+    directionsQuestion: "Are you ready to start this journey with us?",
+    journeyTextTrain: "We know Colombia is very far away. But whether you come by boat...",
+    journeyTextBoat: "or arrive by plane...",
+    journeyTextFinal: "We would be incredibly happy if we could celebrate this beautiful moment together.",
+    directionsWhere: "Where: Villa de Leyva, Colombia",
+    directionsAirport: "Airport: Bogota",
     topImageAlt: "Selfie of a couple in the mountains",
+    trainImageAlt: "Train traveling to the wedding",
+    boatImageAlt: "Boat traveling to the wedding",
+    planeImageAlt: "Plane traveling to the wedding",
     directionsImageAlt: "Selfie of a couple next to a yellow arrow",
   },
 };
@@ -141,6 +142,21 @@ applyVersionedImage(document.getElementById("topHeroImage"), {
 
 applyVersionedImage(document.getElementById("directionsImage"), {
   alt: text.directionsImageAlt,
+  fallbackPath: "../assets/directions-fallback.svg",
+});
+
+applyVersionedImage(document.getElementById("trainImage"), {
+  alt: text.trainImageAlt,
+  fallbackPath: "../assets/directions-fallback.svg",
+});
+
+applyVersionedImage(document.getElementById("boatImage"), {
+  alt: text.boatImageAlt,
+  fallbackPath: "../assets/directions-fallback.svg",
+});
+
+applyVersionedImage(document.getElementById("planeImage"), {
+  alt: text.planeImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
 });
 
@@ -337,4 +353,4 @@ if (previewMode === "all") {
   }
 }
 
-observeSectionReveal(directionsSection, 0.28);
+observeSectionReveal(directionsSection, 0.02);
