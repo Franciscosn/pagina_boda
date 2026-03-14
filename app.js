@@ -10,39 +10,41 @@ const TEXT_BY_LOCALE = {
     ts1: "6/01/2024, 11:48",
     ts2: "6/01/2024, 14:31",
     ts3: "6/01/2024, 15:53",
-    m1: "Hallo Francisco! :) Ich bin eine native Spanischsprecherin, die ihr Deutsch verbessern moechte 👉🏻👈🏻",
-    m2: "Wir koennten uns helfen ✨",
-    m3: "Hallo Katherine :) Ja, das waere eine super Idee. Dein Deutsch scheint schon ziemlich gut.",
+    m1: "Hallo Francisco! :) Ich bin eine native Spanischsprecherin, die ihr Deutsch verbessern möchte 👉🏻👈🏻",
+    m2: "Wir könnten uns helfen ✨",
+    m3: "Hallo Katherine :) Ja, das wäre eine super Idee. Dein Deutsch scheint schon ziemlich gut.",
     m4: "Wo bist du aufgewachsen?",
     m5: "Falls ich fragen darf :)",
     m6: "Es ist a kleine Baby deutsch haha",
     m7: "Kolumbien, und du?",
     m8: "Kein Problem! Ich glaube, viele Menschen hier in Berlin kommen aus vielen anderen Teilen der Welt.",
     m9: "haha baby deutsch.",
+    postChatText: "und nach vielen schönen gemeinsamen Momenten waren wir dann hier:",
     directionsQuestion: "Bist du bereit mit uns eine Reise anzutreten?",
     journeyTextTrain: "Wir wissen Kolumbien ist sehr weit weg. Aber ob du per Boot...",
     journeyTextBoat: "oder per Flugzeug kommst...",
     journeyTextFinal:
-      "Wir wuerden uns unglaublich freuen, wenn wir gemeinsam diesen schoenen Moment feiern koennten.",
+      "Wir würden uns unglaublich freuen, wenn wir gemeinsam diesen schönen Moment feiern könnten.",
     directionsWhereTitle: "Aber, wo geht's hin?",
-    directionsWhere: "Wo: Villa del Leyva, Kolumbien",
+    directionsWhere: "Es geht nach: Villa del Leyva, Kolumbien",
     directionsTravel:
       "Anreise: Der Ort ist drei bis vier Stunden mit dem Auto oder Bus von Bogota entfernt.",
     directionsMoreInfo: "mehr Infos kommen bald. Meldet euch gerne bei Fragen.",
     ctaComing: "Ich komme",
     ctaSorry: "Ich kann leider nicht",
-    ctaMaybe: "Ich weiss es noch nicht",
+    ctaMaybe: "Ich weiß es noch nicht",
     mailSubjectComing: "Zusage zur Hochzeit",
     mailSubjectDecline: "Absage zur Hochzeit",
-    mailSubjectMaybe: "Ich weiss es noch nicht",
+    mailSubjectMaybe: "Ich weiß es noch nicht",
     mailBodyComing: "Hallo,\nich komme zur Hochzeit.\n\nName:\nAnzahl Personen:\n",
     mailBodyDecline: "Hallo,\nleider kann ich nicht zur Hochzeit kommen.\n\nName:\n",
-    mailBodyMaybe: "Hallo,\nich weiss es noch nicht.\n\nName:\n",
+    mailBodyMaybe: "Hallo,\nich weiß es noch nicht.\n\nName:\n",
     topImageAlt: "Selfie eines Paares in den Bergen",
     trainImageAlt: "Zug auf dem Weg zur Hochzeit",
     boatImageAlt: "Boot auf dem Weg zur Hochzeit",
+    reenactmentImageAlt: "Selfie von uns beiden in den Bergen",
     villaImageAlt: "Villa del Leyva in Kolumbien",
-    directionsImageAlt: "Selfie eines Paares neben einem gelben Pfeil",
+    directionsImageAlt: "Landschaft in Kolumbien",
   },
   es: {
     pageTitle: "Invitacion a la boda",
@@ -64,12 +66,13 @@ const TEXT_BY_LOCALE = {
     m7: "Colombia, y tu?",
     m8: "No pasa nada! Creo que mucha gente aqui en Berlin viene de otras partes del mundo.",
     m9: "jaja aleman bebe.",
+    postChatText: "y después de muchos momentos bonitos juntos, terminamos aquí:",
     directionsQuestion: "Estas listo para emprender este viaje con nosotros?",
     journeyTextTrain: "Sabemos que Colombia esta muy lejos. Pero vengas en barco...",
     journeyTextBoat: "o llegues en avion...",
     journeyTextFinal: "Nos haria muchisima ilusion celebrar juntos este momento tan bonito.",
     directionsWhereTitle: "Pero, adonde vamos?",
-    directionsWhere: "Donde: Villa de Leyva, Colombia",
+    directionsWhere: "Vamos a: Villa de Leyva, Colombia",
     directionsTravel:
       "Llegada: El lugar esta a tres o cuatro horas de Bogota en coche o en bus.",
     directionsMoreInfo: "Mas informacion pronto. Escribannos si tienen preguntas.",
@@ -85,8 +88,9 @@ const TEXT_BY_LOCALE = {
     topImageAlt: "Selfie de una pareja en las montanas",
     trainImageAlt: "Tren viajando hacia la boda",
     boatImageAlt: "Barco viajando hacia la boda",
+    reenactmentImageAlt: "Selfie de nosotros en las montanas",
     villaImageAlt: "Villa de Leyva en Colombia",
-    directionsImageAlt: "Selfie de una pareja junto a una flecha amarilla",
+    directionsImageAlt: "Paisaje en Colombia",
   },
   en: {
     pageTitle: "Wedding Invite",
@@ -108,12 +112,13 @@ const TEXT_BY_LOCALE = {
     m7: "Colombia, and you?",
     m8: "No problem! I think many people here in Berlin come from many different parts of the world.",
     m9: "haha baby German.",
+    postChatText: "and after many beautiful shared moments, we ended up here:",
     directionsQuestion: "Are you ready to start this journey with us?",
     journeyTextTrain: "We know Colombia is very far away. But whether you come by boat...",
     journeyTextBoat: "or arrive by plane...",
     journeyTextFinal: "We would be incredibly happy if we could celebrate this beautiful moment together.",
     directionsWhereTitle: "But where are we going?",
-    directionsWhere: "Where: Villa de Leyva, Colombia",
+    directionsWhere: "We are heading to: Villa de Leyva, Colombia",
     directionsTravel:
       "Travel: The place is about three to four hours from Bogota by car or bus.",
     directionsMoreInfo: "More info is coming soon. Feel free to contact us with any questions.",
@@ -129,8 +134,9 @@ const TEXT_BY_LOCALE = {
     topImageAlt: "Selfie of a couple in the mountains",
     trainImageAlt: "Train traveling to the wedding",
     boatImageAlt: "Boat traveling to the wedding",
+    reenactmentImageAlt: "Selfie of us together in the mountains",
     villaImageAlt: "Villa de Leyva in Colombia",
-    directionsImageAlt: "Selfie of a couple next to a yellow arrow",
+    directionsImageAlt: "Landscape in Colombia",
   },
 };
 
@@ -227,6 +233,11 @@ applyVersionedImage(document.getElementById("boatImage"), {
   fallbackPath: "../assets/directions-fallback.svg",
 });
 
+applyVersionedImage(document.getElementById("reenactmentImage"), {
+  alt: text.reenactmentImageAlt,
+  fallbackPath: "../assets/directions-fallback.svg",
+});
+
 applyVersionedImage(document.getElementById("villaImage"), {
   alt: text.villaImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
@@ -234,6 +245,7 @@ applyVersionedImage(document.getElementById("villaImage"), {
 
 const thread = document.getElementById("chatThread");
 const chatPhone = document.getElementById("chatPhone");
+const postChatSection = document.getElementById("postChatSection");
 const directionsSection = document.getElementById("directionsSection");
 
 if (!thread || !chatPhone) {
@@ -420,9 +432,13 @@ if (previewMode === "all") {
   revealItems.forEach((item) => item.classList.add("is-visible"));
   currentIndex = revealItems.length;
   releaseScroll();
+  if (postChatSection) {
+    postChatSection.classList.add("is-visible");
+  }
   if (directionsSection) {
     directionsSection.classList.add("is-visible");
   }
 }
 
+observeSectionReveal(postChatSection, 0.12);
 observeSectionReveal(directionsSection, 0.02);
