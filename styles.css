@@ -2,6 +2,7 @@
   --font-base: "Manrope", "Avenir Next", "Helvetica Neue", sans-serif;
   --font-display: "Bebas Neue", "Impact", sans-serif;
   --font-elegant: "Cormorant Garamond", "Times New Roman", serif;
+  --paper-bg: #f2ecdf;
   --bg-main: #f8efe7;
   --bg-accent: #e9d9cf;
   --paper-soft: #fdf9f3;
@@ -32,9 +33,24 @@ body {
 body {
   font-family: var(--font-base);
   color: var(--text-primary);
-  background: radial-gradient(circle at 10% 14%, #ffd6cb 0%, transparent 37%),
-    radial-gradient(circle at 90% 86%, #e6edf9 0%, transparent 42%),
-    linear-gradient(145deg, var(--bg-main), #fbf4eb 44%, #f0f2f8 100%);
+  background-color: var(--paper-bg);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(246, 237, 223, 0.24)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(130, 106, 76, 0.024) 0px,
+      rgba(130, 106, 76, 0.024) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(110, 88, 62, 0.02) 0px,
+      rgba(110, 88, 62, 0.02) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    radial-gradient(circle at 22% 18%, rgba(165, 136, 96, 0.06) 0%, transparent 42%),
+    radial-gradient(circle at 78% 74%, rgba(172, 145, 108, 0.05) 0%, transparent 44%);
   overflow-x: hidden;
 }
 
@@ -44,15 +60,7 @@ body.reveal-locked {
 }
 
 .ambient-glow {
-  position: fixed;
-  z-index: 0;
-  width: 42vmin;
-  height: 42vmin;
-  border-radius: 50%;
-  filter: blur(14px);
-  opacity: 0.3;
-  pointer-events: none;
-  animation: drift 15s ease-in-out infinite alternate;
+  display: none;
 }
 
 .glow-one {
