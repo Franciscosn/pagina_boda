@@ -83,18 +83,18 @@ body.reveal-locked {
 }
 
 .top-hero-media {
-  width: min(94vw, 860px);
+  width: min(98vw, 980px);
   border-radius: 34px;
   border: 1px solid rgba(36, 30, 23, 0.15);
   overflow: hidden;
   box-shadow: 0 24px 56px rgba(32, 22, 14, 0.22);
-  background: var(--paper-soft);
+  background: transparent;
 }
 
 .top-hero-image {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: auto;
   object-fit: contain;
   object-position: center;
 }
@@ -134,7 +134,7 @@ body.reveal-locked {
 }
 
 .wedding-date {
-  margin: 0 0 1.2rem;
+  margin: 0;
   font-family: var(--font-display);
   font-size: clamp(2.45rem, 9.8vw, 5.9rem);
   line-height: 0.9;
@@ -145,13 +145,55 @@ body.reveal-locked {
   animation: heartbeat 1.38s ease-in-out infinite;
 }
 
+.date-ornament {
+  margin: 0 0 1.2rem;
+  display: grid;
+  justify-items: center;
+  gap: clamp(0.2rem, 1.1vw, 0.42rem);
+}
+
+.date-top-row {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: end;
+  gap: clamp(0.26rem, 1.2vw, 0.72rem);
+}
+
+.date-main-row {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  gap: clamp(0.34rem, 1.5vw, 0.96rem);
+}
+
 .date-couple-icon {
-  margin: 0 0 0.22rem;
+  margin: 0;
   display: block;
-  width: clamp(4.2rem, 12.8vw, 8.4rem);
+  width: clamp(8.4rem, 25.6vw, 16.8rem);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 6px rgba(17, 17, 17, 0.14));
+}
+
+.date-rings-icon,
+.date-cake-icon,
+.date-wine-icon {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(17, 17, 17, 0.14));
+}
+
+.date-rings-icon {
+  width: clamp(2.5rem, 7.4vw, 4.6rem);
+}
+
+.date-cake-icon {
+  width: clamp(2.4rem, 7vw, 4.4rem);
+}
+
+.date-wine-icon {
+  width: clamp(1.32rem, 4.2vw, 2.5rem);
 }
 
 .wedding-location {
@@ -767,13 +809,36 @@ body.reveal-locked {
   }
 
   .wedding-date {
-    margin-bottom: 0.94rem;
     font-size: clamp(2.25rem, 13vw, 3.4rem);
   }
 
   .date-couple-icon {
-    margin-bottom: 0.16rem;
-    width: clamp(3.9rem, 18vw, 6.1rem);
+    width: clamp(7rem, 30vw, 10.5rem);
+  }
+
+  .date-ornament {
+    margin-bottom: 0.94rem;
+    gap: 0.18rem;
+  }
+
+  .date-top-row {
+    gap: 0.28rem;
+  }
+
+  .date-main-row {
+    gap: 0.28rem;
+  }
+
+  .date-rings-icon {
+    width: clamp(2.1rem, 9vw, 3rem);
+  }
+
+  .date-cake-icon {
+    width: clamp(2rem, 8.4vw, 3.1rem);
+  }
+
+  .date-wine-icon {
+    width: clamp(1.05rem, 5vw, 1.7rem);
   }
 
   .wedding-location {

@@ -230,6 +230,18 @@ applyVersionedImage(document.getElementById("dateCoupleIcon"), {
   alt: "",
 });
 
+applyVersionedImage(document.getElementById("dateRingsIcon"), {
+  alt: "",
+});
+
+applyVersionedImage(document.getElementById("dateCakeIcon"), {
+  alt: "",
+});
+
+applyVersionedImage(document.getElementById("dateWineIcon"), {
+  alt: "",
+});
+
 applyVersionedImage(document.getElementById("directionsImage"), {
   alt: text.directionsImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
