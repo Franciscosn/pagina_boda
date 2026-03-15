@@ -303,15 +303,12 @@ let revealLocked = true;
 let revealCooldown = false;
 let revealModeActive = false;
 let touchStartY = null;
-let chatAnchorTimeout = 0;
 
 const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const getViewportHeight = () => window.innerHeight || document.documentElement.clientHeight;
 
 const getChatStageRect = () => chatStage.getBoundingClientRect();
-
-const getChatPhoneRect = () => chatPhone.getBoundingClientRect();
 
 const getChatAnchorTop = () => {
   const viewportHeight = getViewportHeight();
@@ -320,13 +317,9 @@ const getChatAnchorTop = () => {
   return Math.max(0, stageTop - topOffset);
 };
 
-const isChatReadingZoneActive = () => {
-  const rect = getChatPhoneRect();
-  const viewportHeight = getViewportHeight();
-  const topThreshold = Math.max(12, viewportHeight * 0.03);
-  const bottomThreshold = Math.max(18, viewportHeight * 0.03);
-  return rect.top >= topThreshold - 2 && rect.bottom <= viewportHeight - bottomThreshold + 2;
-};
+const getChatAnchorTolerance = () => Math.max(10, getViewportHeight() * 0.02);
+
+const isChatAnchored = () => Math.abs(window.scrollY - getChatAnchorTop()) <= getChatAnchorTolerance();
 
 const isNearChatStage = () => {
   const rect = getChatStageRect();
@@ -339,25 +332,18 @@ const shouldCaptureChatEntrance = () => {
     return false;
   }
 
-  return isNearChatStage() && !isChatReadingZoneActive();
-};
-
-const scheduleChatLockSync = () => {
-  window.clearTimeout(chatAnchorTimeout);
-  chatAnchorTimeout = window.setTimeout(() => {
-    syncRevealLockState();
-  }, isReducedMotion ? 20 : 80);
+  return isNearChatStage() && !isChatAnchored();
 };
 
 const anchorChatStage = () => {
   if (previewSection) {
-    return;
+    return false;
   }
 
   const targetTop = getChatAnchorTop();
 
-  if (Math.abs(window.scrollY - targetTop) < 2) {
-    return;
+  if (Math.abs(window.scrollY - targetTop) <= getChatAnchorTolerance()) {
+    return false;
   }
 
   window.scrollTo({
@@ -365,7 +351,7 @@ const anchorChatStage = () => {
     behavior: "auto",
   });
 
-  scheduleChatLockSync();
+  return true;
 };
 
 const captureChatEntrance = () => {
@@ -374,15 +360,15 @@ const captureChatEntrance = () => {
   }
 
   anchorChatStage();
+  syncRevealLockState();
   return true;
 };
 
 const syncRevealLockState = () => {
-  if (captureChatEntrance()) {
-    return;
-  }
-
-  const shouldLock = revealLocked && isChatReadingZoneActive();
+  const shouldLock =
+    revealLocked &&
+    !previewSection &&
+    (isChatAnchored() || (revealModeActive && isNearChatStage()));
 
   if (shouldLock === revealModeActive) {
     return;
@@ -449,7 +435,6 @@ const revealStepFromScroll = () => {
 
 const tryAdvanceReveal = () => {
   if (captureChatEntrance()) {
-    syncRevealLockState();
     return true;
   }
 
