@@ -17,6 +17,10 @@
   --shadow-soft: 0 24px 70px rgba(44, 30, 18, 0.18);
   --horizontal-media-width: 560px;
   --horizontal-media-mobile-width: 340px;
+  --chat-top-offset: 24px;
+  --chat-bottom-gap: 18px;
+  --chat-phone-height: 90vh;
+  --chat-stage-height: calc(var(--chat-phone-height) + var(--chat-top-offset) + var(--chat-bottom-gap));
 }
 
 * {
@@ -79,6 +83,8 @@ body[data-preview-section="intro"] .chat-stage {
 }
 
 body[data-preview-section="intro"] .phone {
+  position: relative;
+  top: 0;
   height: min(54vh, 470px);
 }
 
@@ -101,6 +107,8 @@ body[data-preview-section="storyflow"] .chat-stage {
 }
 
 body[data-preview-section="storyflow"] .phone {
+  position: relative;
+  top: 0;
   height: min(62vh, 560px);
 }
 
@@ -308,7 +316,7 @@ body.reveal-locked {
 }
 
 .chat-stage {
-  min-height: 100vh;
+  min-height: var(--chat-stage-height);
   padding: 0 1.2rem 0.67rem;
   display: grid;
   justify-items: center;
@@ -317,8 +325,9 @@ body.reveal-locked {
 
 .phone {
   width: min(92vw, 660px);
-  height: min(90vh, 960px);
+  height: min(var(--chat-phone-height), 960px);
   min-width: 0;
+  align-self: start;
   display: grid;
   grid-template-rows: auto 1fr;
   background: linear-gradient(180deg, #fefbf5 0%, #f7f0e5 100%);
@@ -326,7 +335,8 @@ body.reveal-locked {
   border-radius: 38px;
   box-shadow: var(--shadow-soft);
   overflow: hidden;
-  position: relative;
+  position: sticky;
+  top: var(--chat-top-offset);
 }
 
 .phone::before {
@@ -461,11 +471,13 @@ body.reveal-locked {
 }
 
 .reveal-item {
+  display: none;
   opacity: 0;
   transform: translateY(14px) scale(0.97);
 }
 
 .reveal-item.is-visible {
+  display: block;
   animation: bubble-in 680ms cubic-bezier(0.2, 0.75, 0.22, 1) forwards;
 }
 
@@ -960,12 +972,12 @@ body.reveal-locked {
   }
 
   .chat-stage {
-    min-height: 100dvh;
+    min-height: var(--chat-stage-height);
     padding: 0 0 0.59rem;
   }
 
   .phone {
-    height: calc(100dvh - 2rem);
+    height: var(--chat-phone-height);
     width: calc(100vw - 1rem);
     max-width: calc(100vw - 1rem);
     border-radius: 22px;

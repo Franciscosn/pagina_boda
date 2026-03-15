@@ -211,6 +211,16 @@ const applyVersionedImage = (imageElement, options) => {
     imageElement.alt = options.alt;
   }
 
+  imageElement.decoding = "async";
+
+  if (options && options.loading) {
+    imageElement.loading = options.loading;
+  }
+
+  if (options && options.fetchPriority) {
+    imageElement.fetchPriority = options.fetchPriority;
+  }
+
   const imageUrl = new URL(imageElement.getAttribute("src"), window.location.href);
   imageUrl.searchParams.set("v", window.__assetVersion || Date.now().toString());
   imageElement.src = imageUrl.toString();
@@ -230,6 +240,8 @@ const applyVersionedImage = (imageElement, options) => {
 applyVersionedImage(document.getElementById("topHeroImage"), {
   alt: text.topImageAlt,
   fallbackPath: "../assets/top-hero-fallback.svg",
+  loading: "eager",
+  fetchPriority: "high",
 });
 
 applyVersionedImage(document.getElementById("dateCoupleIcon"), {
@@ -243,32 +255,76 @@ applyVersionedImage(document.getElementById("dateRingsIcon"), {
 applyVersionedImage(document.getElementById("directionsImage"), {
   alt: text.directionsImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
+  loading: "eager",
 });
 
 applyVersionedImage(document.getElementById("trainImage"), {
   alt: text.trainImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
+  loading: "eager",
 });
 
 applyVersionedImage(document.getElementById("boatImage"), {
   alt: text.boatImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
+  loading: "eager",
 });
 
 applyVersionedImage(document.getElementById("samuraiImage"), {
   alt: text.samuraiImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
+  loading: "eager",
 });
 
 applyVersionedImage(document.getElementById("reenactmentImage"), {
   alt: text.reenactmentImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
+  loading: "eager",
 });
 
 applyVersionedImage(document.getElementById("villaImage"), {
   alt: text.villaImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
+  loading: "eager",
 });
+
+const scheduleImagePreload = () => {
+  const preloadTargets = [
+    document.getElementById("samuraiImage"),
+    document.getElementById("reenactmentImage"),
+    document.getElementById("trainImage"),
+    document.getElementById("boatImage"),
+    document.getElementById("directionsImage"),
+    document.getElementById("villaImage"),
+  ];
+
+  const preloadImages = () => {
+    preloadTargets.forEach((imageElement) => {
+      const source = imageElement?.currentSrc || imageElement?.src;
+
+      if (!source) {
+        return;
+      }
+
+      const preloadImage = new Image();
+      preloadImage.decoding = "async";
+      preloadImage.src = source;
+    });
+  };
+
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(preloadImages, { timeout: 1200 });
+    return;
+  }
+
+  window.setTimeout(preloadImages, 600);
+};
+
+if (document.readyState === "complete") {
+  scheduleImagePreload();
+} else {
+  window.addEventListener("load", scheduleImagePreload, { once: true });
+}
 
 const thread = document.getElementById("chatThread");
 const chatPhone = document.getElementById("chatPhone");
@@ -298,241 +354,126 @@ if (previewSection) {
   document.body.dataset.previewSection = previewSection;
 }
 
-let currentIndex = 0;
-let revealLocked = true;
-let revealCooldown = false;
-let revealModeActive = false;
-let touchStartY = null;
-let chatAnchorTimeout = 0;
+let currentRevealCount = 0;
+let chatStepSize = 0;
+let chatTravelDistance = 0;
+let chatHoldDistance = 0;
+let chatTopOffset = 0;
+let chatBottomGap = 0;
+let chatPhoneHeight = 0;
+let scrollSyncFrame = 0;
+let layoutSyncFrame = 0;
 
-const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
-const getViewportHeight = () => window.innerHeight || document.documentElement.clientHeight;
+const getViewportHeight = () =>
+  Math.max(1, Math.round(window.visualViewport?.height || window.innerHeight || document.documentElement.clientHeight));
 
-const getChatStageRect = () => chatStage.getBoundingClientRect();
+const getChatStageTop = () => window.scrollY + chatStage.getBoundingClientRect().top;
 
-const getChatPhoneRect = () => chatPhone.getBoundingClientRect();
+const setRevealCount = (nextCount) => {
+  const clampedCount = clamp(nextCount, 0, revealItems.length);
 
-const getChatAnchorTop = () => {
-  const viewportHeight = getViewportHeight();
-  const stageTop = window.scrollY + getChatStageRect().top;
-  const topOffset = Math.max(12, viewportHeight * 0.03);
-  return Math.max(0, stageTop - topOffset);
-};
-
-const isChatReadingZoneActive = () => {
-  const rect = getChatPhoneRect();
-  const viewportHeight = getViewportHeight();
-  const topThreshold = Math.max(12, viewportHeight * 0.03);
-  const bottomThreshold = Math.max(18, viewportHeight * 0.03);
-  const availableBottomSpace = Math.max(0, viewportHeight - rect.height - topThreshold);
-  const effectiveBottomThreshold = Math.min(bottomThreshold, availableBottomSpace);
-  return rect.top >= topThreshold - 2 && rect.bottom <= viewportHeight - effectiveBottomThreshold + 2;
-};
-
-const isNearChatStage = () => {
-  const rect = getChatStageRect();
-  const viewportHeight = getViewportHeight();
-  return rect.top <= viewportHeight * 0.55 && rect.bottom >= viewportHeight * 0.25;
-};
-
-const shouldCaptureChatEntrance = () => {
-  if (!revealLocked || previewSection) {
-    return false;
+  if (clampedCount === currentRevealCount) {
+    return;
   }
 
-  return isNearChatStage() && !isChatReadingZoneActive();
+  revealItems.forEach((item, index) => {
+    item.classList.toggle("is-visible", index < clampedCount);
+  });
+
+  currentRevealCount = clampedCount;
+  thread.classList.toggle("chat-complete", clampedCount >= revealItems.length);
+
+  window.requestAnimationFrame(() => {
+    thread.scrollTop = clampedCount <= 1 ? 0 : thread.scrollHeight;
+  });
 };
 
-const scheduleChatLockSync = () => {
-  window.clearTimeout(chatAnchorTimeout);
-  chatAnchorTimeout = window.setTimeout(() => {
-    syncRevealLockState();
-  }, isReducedMotion ? 20 : 80);
-};
-
-const anchorChatStage = () => {
+const syncChatLayout = () => {
   if (previewSection) {
     return;
   }
 
-  const targetTop = getChatAnchorTop();
+  const viewportHeight = getViewportHeight();
+  const compactViewport = window.matchMedia("(max-width: 760px)").matches;
+  const nextTopOffset = clamp(Math.round(viewportHeight * (compactViewport ? 0.03 : 0.035)), 16, 34);
+  const nextBottomGap = clamp(Math.round(viewportHeight * 0.02), 12, 24);
+  const preferredPhoneHeight = compactViewport
+    ? viewportHeight - 16
+    : Math.round(viewportHeight * 0.9);
+  const maxPhoneHeight = viewportHeight - nextTopOffset - nextBottomGap;
+  const minPhoneHeight = compactViewport ? 320 : 520;
 
-  if (Math.abs(window.scrollY - targetTop) < 2) {
-    return;
-  }
-
-  window.scrollTo({
-    top: targetTop,
-    behavior: "auto",
-  });
-
-  scheduleChatLockSync();
-};
-
-const captureChatEntrance = () => {
-  if (!shouldCaptureChatEntrance()) {
-    return false;
-  }
-
-  anchorChatStage();
-  return true;
-};
-
-const syncRevealLockState = () => {
-  if (captureChatEntrance()) {
-    return;
-  }
-
-  const shouldLock = revealLocked && isChatReadingZoneActive();
-
-  if (shouldLock === revealModeActive) {
-    return;
-  }
-
-  revealModeActive = shouldLock;
-  document.body.classList.toggle("reveal-locked", shouldLock);
-  thread.classList.toggle("reveal-locked", shouldLock);
-};
-
-const revealNow = (element) => {
-  if (!element || element.classList.contains("is-visible")) {
-    return;
-  }
-
-  element.classList.add("is-visible");
-  thread.scrollTo({ top: thread.scrollHeight, behavior: isReducedMotion ? "auto" : "smooth" });
-};
-
-const releaseScroll = () => {
-  if (!revealLocked) {
-    return;
-  }
-
-  revealLocked = false;
-  revealModeActive = false;
-  document.body.classList.remove("reveal-locked");
-  thread.classList.remove("reveal-locked");
-  thread.classList.add("chat-complete");
-};
-
-const revealNext = () => {
-  const next = revealItems[currentIndex];
-
-  if (!next) {
-    releaseScroll();
-    return;
-  }
-
-  revealNow(next);
-  currentIndex += 1;
-};
-
-const revealStepFromScroll = () => {
-  syncRevealLockState();
-
-  if (!revealLocked || !revealModeActive || revealCooldown) {
-    return false;
-  }
-
-  revealCooldown = true;
-  revealNext();
-
-  if (currentIndex >= revealItems.length) {
-    window.setTimeout(releaseScroll, isReducedMotion ? 50 : 280);
-  }
-
-  window.setTimeout(() => {
-    revealCooldown = false;
-  }, isReducedMotion ? 90 : 350);
-
-  return true;
-};
-
-const tryAdvanceReveal = () => {
-  if (captureChatEntrance()) {
-    syncRevealLockState();
-    return true;
-  }
-
-  return revealStepFromScroll();
-};
-
-const onWheel = (event) => {
-  if (Math.abs(event.deltaY) < 4) {
-    return;
-  }
-
-  if (event.deltaY > 0 && tryAdvanceReveal()) {
-    event.preventDefault();
-    return;
-  }
-
-  if (revealModeActive) {
-    event.preventDefault();
-  }
-};
-
-const onTouchStart = (event) => {
-  touchStartY = event.touches[0]?.clientY ?? null;
-};
-
-const onTouchMove = (event) => {
-  const currentY = event.touches[0]?.clientY;
-  if (touchStartY === null || currentY === undefined) {
-    return;
-  }
-
-  if (Math.abs(currentY - touchStartY) < 8) {
-    return;
-  }
-
-  const isForwardSwipe = currentY < touchStartY;
-
-  if (isForwardSwipe && tryAdvanceReveal()) {
-    event.preventDefault();
-    touchStartY = currentY;
-    return;
-  }
-
-  if (revealModeActive) {
-    event.preventDefault();
-  }
-
-  touchStartY = currentY;
-};
-
-const onKeyDown = (event) => {
-  const isScrollKey = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Spacebar"].includes(
-    event.key
+  chatTopOffset = nextTopOffset;
+  chatBottomGap = nextBottomGap;
+  chatPhoneHeight = clamp(Math.min(960, preferredPhoneHeight, maxPhoneHeight), minPhoneHeight, 960);
+  chatStepSize = clamp(
+    Math.round(viewportHeight * (compactViewport ? 0.19 : 0.15)),
+    compactViewport ? 118 : 110,
+    compactViewport ? 190 : 170
+  );
+  chatHoldDistance = clamp(
+    Math.round(viewportHeight * (compactViewport ? 0.24 : 0.14)),
+    compactViewport ? 150 : 110,
+    compactViewport ? 240 : 180
+  );
+  chatTravelDistance = Math.max(
+    chatHoldDistance + chatStepSize * Math.max(0, revealItems.length - 1),
+    chatHoldDistance + chatStepSize
   );
 
-  if (!isScrollKey) {
-    return;
-  }
-
-  const isForwardKey = ["ArrowDown", "PageDown", " ", "Spacebar"].includes(event.key);
-
-  if (isForwardKey && tryAdvanceReveal()) {
-    event.preventDefault();
-    return;
-  }
-
-  if (revealModeActive) {
-    event.preventDefault();
-  }
+  document.documentElement.style.setProperty("--chat-top-offset", `${chatTopOffset}px`);
+  document.documentElement.style.setProperty("--chat-bottom-gap", `${chatBottomGap}px`);
+  document.documentElement.style.setProperty("--chat-phone-height", `${chatPhoneHeight}px`);
+  document.documentElement.style.setProperty(
+    "--chat-stage-height",
+    `${chatPhoneHeight + chatTopOffset + chatBottomGap + chatTravelDistance}px`
+  );
 };
 
-const revealInitialItem = () => {
-  const firstItem = revealItems[0];
+const getRevealCountFromScroll = () => {
+  if (!revealItems.length) {
+    return 0;
+  }
 
-  if (!firstItem) {
-    releaseScroll();
+  const revealStart = getChatStageTop() - chatTopOffset;
+  const revealDistance = Math.max(chatTravelDistance, 1);
+  const relativeDistance = clamp(window.scrollY - revealStart - chatHoldDistance, 0, revealDistance);
+  const additionalItems = Math.floor(relativeDistance / chatStepSize);
+
+  return clamp(1 + additionalItems, 1, revealItems.length);
+};
+
+const syncChatRevealFromScroll = () => {
+  if (previewSection) {
     return;
   }
 
-  firstItem.classList.add("is-visible");
-  currentIndex = 1;
+  setRevealCount(getRevealCountFromScroll());
+};
+
+const scheduleScrollSync = () => {
+  if (scrollSyncFrame) {
+    return;
+  }
+
+  scrollSyncFrame = window.requestAnimationFrame(() => {
+    scrollSyncFrame = 0;
+    syncChatRevealFromScroll();
+  });
+};
+
+const scheduleLayoutSync = () => {
+  if (layoutSyncFrame) {
+    return;
+  }
+
+  layoutSyncFrame = window.requestAnimationFrame(() => {
+    layoutSyncFrame = 0;
+    syncChatLayout();
+    syncChatRevealFromScroll();
+  });
 };
 
 const observeSectionReveal = (section, threshold = 0.3) => {
@@ -554,20 +495,6 @@ const observeSectionReveal = (section, threshold = 0.3) => {
   observer.observe(section);
 };
 
-revealInitialItem();
-syncRevealLockState();
-
-window.addEventListener("wheel", onWheel, { passive: false });
-window.addEventListener("touchstart", onTouchStart, { passive: true });
-window.addEventListener("touchmove", onTouchMove, { passive: false });
-window.addEventListener("keydown", onKeyDown);
-window.addEventListener("scroll", syncRevealLockState, { passive: true });
-window.addEventListener("resize", syncRevealLockState);
-
-if (revealItems.length <= 1) {
-  releaseScroll();
-}
-
 if (
   previewMode === "all" ||
   previewMode === "intro" ||
@@ -575,15 +502,23 @@ if (
   previewMode === "travel" ||
   previewMode === "storyflow"
 ) {
-  revealItems.forEach((item) => item.classList.add("is-visible"));
-  currentIndex = revealItems.length;
-  releaseScroll();
+  setRevealCount(revealItems.length);
   if (postChatSection) {
     postChatSection.classList.add("is-visible");
   }
   if (directionsSection) {
     directionsSection.classList.add("is-visible");
   }
+} else {
+  syncChatLayout();
+  setRevealCount(revealItems.length ? 1 : 0);
+  syncChatRevealFromScroll();
+
+  window.addEventListener("scroll", scheduleScrollSync, { passive: true });
+  window.addEventListener("resize", scheduleLayoutSync);
+  window.addEventListener("orientationchange", scheduleLayoutSync);
+  window.visualViewport?.addEventListener("resize", scheduleLayoutSync);
+  window.visualViewport?.addEventListener("scroll", scheduleLayoutSync);
 }
 
 observeSectionReveal(postChatSection, 0.12);
