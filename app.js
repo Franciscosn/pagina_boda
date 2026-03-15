@@ -2,7 +2,7 @@ const TEXT_BY_LOCALE = {
   de: {
     pageTitle: "Einladung zur Hochzeit",
     status: "Online 7/01/25 ⚡",
-    inviteLead: "Wir laden dich herzlich ein zu:",
+    inviteLead: "Wir laden dich ein zu:",
     weddingDate: "9.1.27",
     weddingDatePrefix: "am",
     weddingLocation: "unserer Hochzeit\nin Kolumbien",
@@ -231,14 +231,6 @@ applyVersionedImage(document.getElementById("dateCoupleIcon"), {
 });
 
 applyVersionedImage(document.getElementById("dateRingsIcon"), {
-  alt: "",
-});
-
-applyVersionedImage(document.getElementById("dateCakeIcon"), {
-  alt: "",
-});
-
-applyVersionedImage(document.getElementById("dateWineIcon"), {
   alt: "",
 });
 
