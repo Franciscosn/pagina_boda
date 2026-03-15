@@ -19,7 +19,8 @@ const TEXT_BY_LOCALE = {
     m7: "Kolumbien, und du?",
     m8: "Kein Problem! Ich glaube, viele Menschen hier in Berlin kommen aus vielen anderen Teilen der Welt.",
     m9: "haha baby deutsch.",
-    postChatText: "und nach vielen schönen gemeinsamen Momenten waren wir dann hier:",
+    postChatLeadText: "und nach vielen schönen gemeinsamen Momenten",
+    postChatEndText: "waren wir dann hier:",
     directionsQuestion: "Bist du bereit mit uns eine Reise anzutreten?",
     journeyTextTrain: "Wir wissen Kolumbien ist sehr weit weg. Aber ob du per Boot...",
     journeyTextBoat: "oder per Flugzeug kommst...",
@@ -40,6 +41,7 @@ const TEXT_BY_LOCALE = {
     mailBodyDecline: "Hallo,\nleider kann ich nicht zur Hochzeit kommen.\n\nName:\n",
     mailBodyMaybe: "Hallo,\nich weiß es noch nicht.\n\nName:\n",
     topImageAlt: "Selfie eines Paares in den Bergen",
+    samuraiImageAlt: "Künstlerische Illustration eines Paares",
     trainImageAlt: "Zug auf dem Weg zur Hochzeit",
     boatImageAlt: "Boot auf dem Weg zur Hochzeit",
     reenactmentImageAlt: "Selfie von uns beiden in den Bergen",
@@ -66,7 +68,8 @@ const TEXT_BY_LOCALE = {
     m7: "Colombia, y tu?",
     m8: "No pasa nada! Creo que mucha gente aqui en Berlin viene de otras partes del mundo.",
     m9: "jaja aleman bebe.",
-    postChatText: "y después de muchos momentos bonitos juntos, terminamos aquí:",
+    postChatLeadText: "y después de muchos momentos bonitos",
+    postChatEndText: "terminamos aquí:",
     directionsQuestion: "Estas listo para emprender este viaje con nosotros?",
     journeyTextTrain: "Sabemos que Colombia esta muy lejos. Pero vengas en barco...",
     journeyTextBoat: "o llegues en avion...",
@@ -86,6 +89,7 @@ const TEXT_BY_LOCALE = {
     mailBodyDecline: "Hola,\nno podre asistir a la boda.\n\nNombre:\n",
     mailBodyMaybe: "Hola,\naun no lo se.\n\nNombre:\n",
     topImageAlt: "Selfie de una pareja en las montanas",
+    samuraiImageAlt: "Ilustración artística de una pareja",
     trainImageAlt: "Tren viajando hacia la boda",
     boatImageAlt: "Barco viajando hacia la boda",
     reenactmentImageAlt: "Selfie de nosotros en las montanas",
@@ -112,7 +116,8 @@ const TEXT_BY_LOCALE = {
     m7: "Colombia, and you?",
     m8: "No problem! I think many people here in Berlin come from many different parts of the world.",
     m9: "haha baby German.",
-    postChatText: "and after many beautiful shared moments, we ended up here:",
+    postChatLeadText: "and after many beautiful moments",
+    postChatEndText: "we ended up here:",
     directionsQuestion: "Are you ready to start this journey with us?",
     journeyTextTrain: "We know Colombia is very far away. But whether you come by boat...",
     journeyTextBoat: "or arrive by plane...",
@@ -132,6 +137,7 @@ const TEXT_BY_LOCALE = {
     mailBodyDecline: "Hi,\nI cannot attend the wedding.\n\nName:\n",
     mailBodyMaybe: "Hi,\nI am not sure yet.\n\nName:\n",
     topImageAlt: "Selfie of a couple in the mountains",
+    samuraiImageAlt: "Illustrated couple artwork",
     trainImageAlt: "Train traveling to the wedding",
     boatImageAlt: "Boat traveling to the wedding",
     reenactmentImageAlt: "Selfie of us together in the mountains",
@@ -230,6 +236,11 @@ applyVersionedImage(document.getElementById("trainImage"), {
 
 applyVersionedImage(document.getElementById("boatImage"), {
   alt: text.boatImageAlt,
+  fallbackPath: "../assets/directions-fallback.svg",
+});
+
+applyVersionedImage(document.getElementById("samuraiImage"), {
+  alt: text.samuraiImageAlt,
   fallbackPath: "../assets/directions-fallback.svg",
 });
 

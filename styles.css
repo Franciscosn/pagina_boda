@@ -411,6 +411,10 @@ body.reveal-locked {
   text-wrap: balance;
 }
 
+.post-chat-text-end {
+  margin-top: 0.18rem;
+}
+
 .post-chat-media {
   margin: 0;
   width: min(100%, 500px);
