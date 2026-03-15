@@ -147,25 +147,20 @@ body.reveal-locked {
 
 .date-ornament {
   margin: 0 0 1.2rem;
-  display: grid;
-  justify-items: center;
-  gap: clamp(0.18rem, 1vw, 0.38rem);
+  width: min(96vw, 940px);
 }
 
-.date-couple-icon {
-  margin: 0;
-  display: block;
-  width: clamp(10rem, 31vw, 20rem);
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 6px rgba(17, 17, 17, 0.14));
-  transform: translateX(0.28rem);
-}
-
-.date-icons-row {
+.date-main-row {
   display: flex;
-  align-items: flex-end;
-  gap: clamp(0.3rem, 1.25vw, 0.82rem);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.28rem, 1.3vw, 0.9rem);
+}
+
+.date-icons-group {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.24rem, 0.9vw, 0.56rem);
 }
 
 .date-rings-icon,
@@ -187,6 +182,15 @@ body.reveal-locked {
 
 .date-wine-icon {
   width: clamp(1.25rem, 3.8vw, 2.35rem);
+}
+
+.date-couple-icon {
+  display: block;
+  width: clamp(10.2rem, 31vw, 20rem);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(17, 17, 17, 0.14));
+  transform: translate(0.25rem, 0.46rem);
 }
 
 .wedding-location {
@@ -806,17 +810,21 @@ body.reveal-locked {
   }
 
   .date-couple-icon {
-    width: clamp(8.8rem, 40vw, 13.8rem);
-    transform: translateX(0.2rem);
+    width: clamp(8.6rem, 38vw, 13.4rem);
+    transform: translate(0.2rem, 0.42rem);
   }
 
   .date-ornament {
     margin-bottom: 0.94rem;
-    gap: 0.12rem;
+    width: min(96vw, 520px);
   }
 
-  .date-icons-row {
+  .date-main-row {
     gap: 0.22rem;
+  }
+
+  .date-icons-group {
+    gap: 0.18rem;
   }
 
   .date-rings-icon {
