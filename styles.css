@@ -141,7 +141,7 @@ body.reveal-locked {
 }
 
 .top-hero {
-  padding: 1.28rem 1.2rem 0.26rem;
+  padding: 1.28rem 0.7rem 0.26rem;
   display: grid;
   place-items: center;
 }
@@ -158,7 +158,7 @@ body.reveal-locked {
 }
 
 .top-hero-media {
-  width: min(80vw, 820px);
+  width: min(92vw, 920px);
   border-radius: 34px;
   border: 1px solid rgba(36, 30, 23, 0.15);
   overflow: hidden;
@@ -268,16 +268,16 @@ body.reveal-locked {
 
 .wedding-location {
   margin: 0 0 0.62rem;
-  width: min(80vw, 820px);
-  padding: 0.42em 0.52em 0.48em;
+  width: min(92vw, 920px);
+  padding: 0.46em 0.54em 0.5em;
   border-radius: 28px;
   border: 1px solid rgba(182, 140, 62, 0.48);
   background-color: rgba(255, 250, 245, 0.93);
   box-shadow: 0 14px 30px rgba(36, 24, 16, 0.11);
   font-family: var(--font-display);
-  font-size: clamp(2.1rem, 6vw, 4.15rem);
+  font-size: clamp(2.35rem, 6.4vw, 4.7rem);
   font-weight: 400;
-  line-height: 0.96;
+  line-height: 0.92;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: pre-line;
@@ -896,7 +896,7 @@ body.reveal-locked {
 
 @media (max-width: 760px) {
   .top-hero {
-    padding: 1rem 0.5rem 0.14rem;
+    padding: 1rem 0.2rem 0.14rem;
   }
 
   .invite-lead {
@@ -907,7 +907,7 @@ body.reveal-locked {
   }
 
   .top-hero-media {
-    width: min(80vw, 470px);
+    width: min(96vw, 540px);
     border-radius: 22px;
   }
 
@@ -954,11 +954,11 @@ body.reveal-locked {
   }
 
   .wedding-location {
-    width: min(80vw, 470px);
+    width: min(96vw, 540px);
     margin-bottom: 0.58rem;
-    padding: 0.44em 0.48em 0.48em;
-    font-size: clamp(1.72rem, 9.3vw, 2.7rem);
-    line-height: 0.96;
+    padding: 0.46em 0.46em 0.5em;
+    font-size: clamp(1.98rem, 10vw, 3.25rem);
+    line-height: 0.92;
   }
 
   .story-divider {
