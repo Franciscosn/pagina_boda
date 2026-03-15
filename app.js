@@ -321,6 +321,8 @@ const getChatAnchorTolerance = () => Math.max(10, getViewportHeight() * 0.02);
 
 const isChatAnchored = () => Math.abs(window.scrollY - getChatAnchorTop()) <= getChatAnchorTolerance();
 
+const hasReachedChatEntrance = () => window.scrollY >= getChatAnchorTop() - getChatAnchorTolerance();
+
 const isNearChatStage = () => {
   const rect = getChatStageRect();
   const viewportHeight = getViewportHeight();
@@ -332,7 +334,7 @@ const shouldCaptureChatEntrance = () => {
     return false;
   }
 
-  return isNearChatStage() && !isChatAnchored();
+  return (isNearChatStage() || hasReachedChatEntrance()) && !isChatAnchored();
 };
 
 const anchorChatStage = () => {
@@ -365,16 +367,21 @@ const captureChatEntrance = () => {
 };
 
 const syncRevealLockState = () => {
+  if (shouldCaptureChatEntrance()) {
+    anchorChatStage();
+  }
+
   const shouldLock =
     revealLocked &&
     !previewSection &&
-    (isChatAnchored() || (revealModeActive && isNearChatStage()));
+    (isChatAnchored() || (revealModeActive && hasReachedChatEntrance()));
 
   if (shouldLock === revealModeActive) {
     return;
   }
 
   revealModeActive = shouldLock;
+  document.documentElement.classList.toggle("reveal-locked", shouldLock);
   document.body.classList.toggle("reveal-locked", shouldLock);
   thread.classList.toggle("reveal-locked", shouldLock);
 };
@@ -395,6 +402,7 @@ const releaseScroll = () => {
 
   revealLocked = false;
   revealModeActive = false;
+  document.documentElement.classList.remove("reveal-locked");
   document.body.classList.remove("reveal-locked");
   thread.classList.remove("reveal-locked");
   thread.classList.add("chat-complete");
@@ -485,6 +493,10 @@ const onTouchMove = (event) => {
   touchStartY = currentY;
 };
 
+const onTouchEnd = () => {
+  touchStartY = null;
+};
+
 const onKeyDown = (event) => {
   const isScrollKey = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Spacebar"].includes(
     event.key
@@ -541,8 +553,9 @@ revealInitialItem();
 syncRevealLockState();
 
 window.addEventListener("wheel", onWheel, { passive: false });
-window.addEventListener("touchstart", onTouchStart, { passive: true });
-window.addEventListener("touchmove", onTouchMove, { passive: false });
+document.addEventListener("touchstart", onTouchStart, { passive: true });
+document.addEventListener("touchmove", onTouchMove, { passive: false });
+document.addEventListener("touchend", onTouchEnd, { passive: true });
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("scroll", syncRevealLockState, { passive: true });
 window.addEventListener("resize", syncRevealLockState);

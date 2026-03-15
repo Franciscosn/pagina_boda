@@ -104,6 +104,7 @@ body[data-preview-section="storyflow"] .phone {
   height: min(62vh, 560px);
 }
 
+html.reveal-locked,
 body.reveal-locked {
   overflow: hidden;
   overscroll-behavior: none;
