@@ -106,9 +106,7 @@ body[data-preview-section="storyflow"] .phone {
 
 html.reveal-locked,
 body.reveal-locked {
-  overflow: hidden;
   overscroll-behavior: none;
-  touch-action: none;
 }
 
 .ambient-glow {

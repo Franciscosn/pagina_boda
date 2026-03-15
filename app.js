@@ -321,12 +321,10 @@ const getChatAnchorTolerance = () => Math.max(10, getViewportHeight() * 0.02);
 
 const isChatAnchored = () => Math.abs(window.scrollY - getChatAnchorTop()) <= getChatAnchorTolerance();
 
-const hasReachedChatEntrance = () => window.scrollY >= getChatAnchorTop() - getChatAnchorTolerance();
-
 const isNearChatStage = () => {
   const rect = getChatStageRect();
   const viewportHeight = getViewportHeight();
-  return rect.top <= viewportHeight * 0.55 && rect.bottom >= viewportHeight * 0.25;
+  return rect.top <= viewportHeight * 0.82 && rect.bottom >= viewportHeight * 0.18;
 };
 
 const shouldCaptureChatEntrance = () => {
@@ -334,47 +332,38 @@ const shouldCaptureChatEntrance = () => {
     return false;
   }
 
-  return (isNearChatStage() || hasReachedChatEntrance()) && !isChatAnchored();
+  return isNearChatStage() && !isChatAnchored();
 };
 
-const anchorChatStage = () => {
-  if (previewSection) {
-    return false;
-  }
-
-  const targetTop = getChatAnchorTop();
-
-  if (Math.abs(window.scrollY - targetTop) <= getChatAnchorTolerance()) {
-    return false;
-  }
-
-  window.scrollTo({
-    top: targetTop,
-    behavior: "auto",
-  });
-
-  return true;
-};
-
-const captureChatEntrance = () => {
+const moveTowardChatAnchor = (distance) => {
   if (!shouldCaptureChatEntrance()) {
     return false;
   }
 
-  anchorChatStage();
+  const targetTop = getChatAnchorTop();
+  const currentTop = window.scrollY;
+  const offset = targetTop - currentTop;
+  const remainingDistance = Math.abs(offset);
+
+  if (remainingDistance <= getChatAnchorTolerance()) {
+    syncRevealLockState();
+    return false;
+  }
+
+  const baseDistance = Math.max(24, Math.abs(distance) * 0.7);
+  const step = Math.min(baseDistance, 180, remainingDistance);
+
+  window.scrollTo({
+    top: currentTop + Math.sign(offset) * step,
+    behavior: "auto",
+  });
+
   syncRevealLockState();
   return true;
 };
 
 const syncRevealLockState = () => {
-  if (shouldCaptureChatEntrance()) {
-    anchorChatStage();
-  }
-
-  const shouldLock =
-    revealLocked &&
-    !previewSection &&
-    (isChatAnchored() || (revealModeActive && hasReachedChatEntrance()));
+  const shouldLock = revealLocked && !previewSection && isChatAnchored();
 
   if (shouldLock === revealModeActive) {
     return;
@@ -441,26 +430,21 @@ const revealStepFromScroll = () => {
   return true;
 };
 
-const tryAdvanceReveal = () => {
-  if (captureChatEntrance()) {
-    return true;
-  }
-
-  return revealStepFromScroll();
-};
+const shouldHoldForwardScrollAtChat = () => revealLocked && isChatAnchored();
 
 const onWheel = (event) => {
   if (Math.abs(event.deltaY) < 4) {
     return;
   }
 
-  if (event.deltaY > 0 && tryAdvanceReveal()) {
+  if (event.deltaY > 0 && moveTowardChatAnchor(event.deltaY)) {
     event.preventDefault();
     return;
   }
 
-  if (revealModeActive) {
+  if (event.deltaY > 0 && shouldHoldForwardScrollAtChat()) {
     event.preventDefault();
+    revealStepFromScroll();
   }
 };
 
@@ -479,15 +463,17 @@ const onTouchMove = (event) => {
   }
 
   const isForwardSwipe = currentY < touchStartY;
+  const swipeDistance = Math.abs(currentY - touchStartY);
 
-  if (isForwardSwipe && tryAdvanceReveal()) {
+  if (isForwardSwipe && moveTowardChatAnchor(swipeDistance)) {
     event.preventDefault();
     touchStartY = currentY;
     return;
   }
 
-  if (revealModeActive) {
+  if (isForwardSwipe && shouldHoldForwardScrollAtChat()) {
     event.preventDefault();
+    revealStepFromScroll();
   }
 
   touchStartY = currentY;
@@ -508,13 +494,14 @@ const onKeyDown = (event) => {
 
   const isForwardKey = ["ArrowDown", "PageDown", " ", "Spacebar"].includes(event.key);
 
-  if (isForwardKey && tryAdvanceReveal()) {
+  if (isForwardKey && moveTowardChatAnchor(getViewportHeight() * 0.38)) {
     event.preventDefault();
     return;
   }
 
-  if (revealModeActive) {
+  if (isForwardKey && shouldHoldForwardScrollAtChat()) {
     event.preventDefault();
+    revealStepFromScroll();
   }
 };
 
