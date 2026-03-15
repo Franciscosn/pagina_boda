@@ -277,7 +277,13 @@ const revealItems = [...document.querySelectorAll(".reveal-item")];
 const urlParams = new URLSearchParams(window.location.search);
 const previewMode = urlParams.get("preview");
 const previewSection =
-  previewMode === "directions" ? "directions" : previewMode === "travel" ? "travel" : "";
+  previewMode === "directions"
+    ? "directions"
+    : previewMode === "travel"
+      ? "travel"
+      : previewMode === "storyflow"
+        ? "storyflow"
+        : "";
 
 if (previewSection) {
   document.body.dataset.previewSection = previewSection;
@@ -455,7 +461,12 @@ if (revealItems.length <= 1) {
   releaseScroll();
 }
 
-if (previewMode === "all" || previewMode === "directions" || previewMode === "travel") {
+if (
+  previewMode === "all" ||
+  previewMode === "directions" ||
+  previewMode === "travel" ||
+  previewMode === "storyflow"
+) {
   revealItems.forEach((item) => item.classList.add("is-visible"));
   currentIndex = revealItems.length;
   releaseScroll();
