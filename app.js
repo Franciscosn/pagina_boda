@@ -21,7 +21,7 @@ const TEXT_BY_LOCALE = {
     m9: "haha baby deutsch.",
     postChatLeadText: "und nach vielen schönen gemeinsamen Momenten",
     postChatEndText: "waren wir dann hier:",
-    directionsQuestion: "Bist du bereit mit uns eine Reise anzutreten?",
+    directionsQuestion: "Bist\u00a0du\u00a0bereit\nmit\u00a0uns\u00a0eine\nReise\nanzutreten?",
     journeyTextTrain: "Wir wissen Kolumbien ist sehr weit weg. Aber ob du per Boot...",
     journeyTextBoat: "oder per Flugzeug kommst...",
     journeyTextFinal:
