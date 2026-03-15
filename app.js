@@ -325,7 +325,9 @@ const isChatReadingZoneActive = () => {
   const viewportHeight = getViewportHeight();
   const topThreshold = Math.max(12, viewportHeight * 0.03);
   const bottomThreshold = Math.max(18, viewportHeight * 0.03);
-  return rect.top >= topThreshold - 2 && rect.bottom <= viewportHeight - bottomThreshold + 2;
+  const availableBottomSpace = Math.max(0, viewportHeight - rect.height - topThreshold);
+  const effectiveBottomThreshold = Math.min(bottomThreshold, availableBottomSpace);
+  return rect.top >= topThreshold - 2 && rect.bottom <= viewportHeight - effectiveBottomThreshold + 2;
 };
 
 const isNearChatStage = () => {
