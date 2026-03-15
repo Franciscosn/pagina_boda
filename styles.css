@@ -38,6 +38,35 @@ body {
   overflow-x: hidden;
 }
 
+body[data-preview-section="directions"] .top-hero,
+body[data-preview-section="directions"] .wedding-intro,
+body[data-preview-section="directions"] .chat-stage,
+body[data-preview-section="directions"] .post-chat-section,
+body[data-preview-section="directions"] .language-switch {
+  display: none;
+}
+
+body[data-preview-section="directions"] .directions-section {
+  min-height: auto;
+  padding-top: 1.2rem;
+  opacity: 1;
+  transform: none;
+}
+
+body[data-preview-section="travel"] .top-hero,
+body[data-preview-section="travel"] .wedding-intro,
+body[data-preview-section="travel"] .chat-stage,
+body[data-preview-section="travel"] .language-switch {
+  display: none;
+}
+
+body[data-preview-section="travel"] .post-chat-section,
+body[data-preview-section="travel"] .directions-section {
+  min-height: auto;
+  opacity: 1;
+  transform: none;
+}
+
 body.reveal-locked {
   overflow: hidden;
   overscroll-behavior: none;
@@ -165,7 +194,7 @@ body.reveal-locked {
   top: 50%;
   display: flex;
   align-items: center;
-  transform: translate(calc(-50% - clamp(7rem, 19vw, 12.2rem)), -50%);
+  transform: translate(calc(-50% - clamp(7.8rem, 20.4vw, 13rem)), -50%);
 }
 
 .date-rings-icon {
@@ -188,7 +217,7 @@ body.reveal-locked {
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 6px rgba(17, 17, 17, 0.14));
-  transform: translate(calc(-50% + clamp(7.9rem, 25.6vw, 13.8rem)), -45%);
+  transform: translate(calc(-50% + clamp(8.5rem, 27.4vw, 14.8rem)), -45%);
 }
 
 .wedding-location {
@@ -408,7 +437,7 @@ body.reveal-locked {
 
 .post-chat-section {
   min-height: min(78vh, 900px);
-  padding: 3.6vh 1.2rem 5.4vh;
+  padding: 3.6vh 1.2rem 0.6rem;
   display: grid;
   align-content: start;
   justify-items: center;
@@ -464,7 +493,7 @@ body.reveal-locked {
 
 .directions-section {
   min-height: 100vh;
-  padding: 3.6vh 1.2rem 10.2vh;
+  padding: 0.6rem 1.2rem 10.2vh;
   display: grid;
   align-content: start;
   justify-items: center;
@@ -810,8 +839,8 @@ body.reveal-locked {
   }
 
   .date-couple-icon {
-    width: clamp(10.4rem, 43vw, 16rem);
-    transform: translate(calc(-50% + clamp(5.8rem, 26vw, 9.4rem)), -46%);
+    width: clamp(10rem, 41vw, 15.4rem);
+    transform: translate(calc(-50% + clamp(6.25rem, 27.4vw, 10rem)), -46%);
   }
 
   .date-ornament {
@@ -825,7 +854,7 @@ body.reveal-locked {
   }
 
   .date-icons-group {
-    transform: translate(calc(-50% - clamp(5.7rem, 22vw, 8.4rem)), -48%);
+    transform: translate(calc(-50% - clamp(6.25rem, 23.8vw, 8.9rem)), -48%);
   }
 
   .date-rings-icon {
@@ -915,7 +944,7 @@ body.reveal-locked {
 
   .post-chat-section {
     min-height: auto;
-    padding: 2.8vh 0.9rem 4.2vh;
+    padding: 2.8vh 0.9rem 0.54rem;
     gap: 1.08rem;
   }
 
@@ -930,7 +959,7 @@ body.reveal-locked {
   }
 
   .directions-section {
-    padding: 3.2vh 0.9rem 10vh;
+    padding: 0.54rem 0.9rem 10vh;
     gap: 1.08rem;
   }
 

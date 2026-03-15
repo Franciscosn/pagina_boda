@@ -276,6 +276,12 @@ if (!thread || !chatPhone) {
 const revealItems = [...document.querySelectorAll(".reveal-item")];
 const urlParams = new URLSearchParams(window.location.search);
 const previewMode = urlParams.get("preview");
+const previewSection =
+  previewMode === "directions" ? "directions" : previewMode === "travel" ? "travel" : "";
+
+if (previewSection) {
+  document.body.dataset.previewSection = previewSection;
+}
 
 let currentIndex = 0;
 let revealLocked = true;
@@ -449,7 +455,7 @@ if (revealItems.length <= 1) {
   releaseScroll();
 }
 
-if (previewMode === "all") {
+if (previewMode === "all" || previewMode === "directions" || previewMode === "travel") {
   revealItems.forEach((item) => item.classList.add("is-visible"));
   currentIndex = revealItems.length;
   releaseScroll();
