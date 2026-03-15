@@ -2,7 +2,7 @@
   --font-base: "Manrope", "Avenir Next", "Helvetica Neue", sans-serif;
   --font-display: "Bebas Neue", "Impact", sans-serif;
   --font-elegant: "Cormorant Garamond", "Times New Roman", serif;
-  --paper-bg: #f2ecdf;
+  --paper-bg: #f8f4ec;
   --bg-main: #f8efe7;
   --bg-accent: #e9d9cf;
   --paper-soft: #fdf9f3;
@@ -34,23 +34,7 @@ body {
   font-family: var(--font-base);
   color: var(--text-primary);
   background-color: var(--paper-bg);
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(246, 237, 223, 0.24)),
-    repeating-linear-gradient(
-      90deg,
-      rgba(130, 106, 76, 0.024) 0px,
-      rgba(130, 106, 76, 0.024) 1px,
-      transparent 1px,
-      transparent 6px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(110, 88, 62, 0.02) 0px,
-      rgba(110, 88, 62, 0.02) 1px,
-      transparent 1px,
-      transparent 5px
-    ),
-    radial-gradient(circle at 22% 18%, rgba(165, 136, 96, 0.06) 0%, transparent 42%),
-    radial-gradient(circle at 78% 74%, rgba(172, 145, 108, 0.05) 0%, transparent 44%);
+  background-image: none;
   overflow-x: hidden;
 }
 
@@ -470,13 +454,15 @@ body.reveal-locked {
   font-size: clamp(1.8rem, 5.8vw, 3.6rem);
   line-height: 0.96;
   letter-spacing: 0.055em;
-  text-transform: uppercase;
+  text-transform: none;
   color: #1f2d59;
   text-align: center;
 }
 
 .directions-title-main {
-  color: #1f2230;
+  color: var(--ink-blue);
+  text-shadow: 0 0 0 rgba(29, 63, 155, 0.4), 0 10px 24px rgba(29, 63, 155, 0.23);
+  animation: cobalt-pulse 1.6s ease-in-out infinite;
 }
 
 .journey-media {
@@ -514,12 +500,13 @@ body.reveal-locked {
 .directions-subtitle {
   margin: 0.2rem 0 0;
   text-align: center;
-  font-family: var(--font-elegant);
+  font-family: var(--font-display);
   font-size: clamp(1.36rem, 4.2vw, 2.5rem);
-  line-height: 1;
-  letter-spacing: 0.01em;
-  font-style: italic;
-  color: #2a2d3d;
+  line-height: 0.98;
+  letter-spacing: 0.045em;
+  text-transform: none;
+  color: var(--ink-blue);
+  text-shadow: 0 8px 20px rgba(29, 63, 155, 0.18);
 }
 
 .directions-media {
@@ -727,6 +714,25 @@ body.reveal-locked {
   }
   68% {
     transform: scale(1);
+  }
+}
+
+@keyframes cobalt-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(29, 63, 155, 0.4), 0 10px 24px rgba(29, 63, 155, 0.23);
+  }
+  22% {
+    transform: scale(1.045);
+    text-shadow: 0 0 18px rgba(29, 63, 155, 0.35), 0 12px 26px rgba(29, 63, 155, 0.28);
+  }
+  42% {
+    transform: scale(1);
+  }
+  64% {
+    transform: scale(1.03);
+    text-shadow: 0 0 12px rgba(29, 63, 155, 0.28), 0 11px 24px rgba(29, 63, 155, 0.25);
   }
 }
 

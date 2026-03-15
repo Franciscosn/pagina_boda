@@ -2,10 +2,10 @@ const TEXT_BY_LOCALE = {
   de: {
     pageTitle: "Einladung zur Hochzeit",
     status: "Online 7/01/25 ⚡",
-    inviteLead: "Wir laden ein zur:",
+    inviteLead: "Wir laden dich herzlich ein zu:",
     weddingDate: "9.1.27",
     weddingDatePrefix: "am",
-    weddingLocation: "Hochzeit\nin Kolumbien",
+    weddingLocation: "unserer Hochzeit\nin Kolumbien",
     storyTitle: "so fing alles an",
     ts1: "6/01/2024, 11:48",
     ts2: "6/01/2024, 14:31",
@@ -26,7 +26,7 @@ const TEXT_BY_LOCALE = {
     journeyTextBoat: "oder per Flugzeug kommst...",
     journeyTextFinal:
       "Wir würden uns unglaublich freuen, wenn wir gemeinsam diesen schönen Moment feiern könnten.",
-    directionsWhereTitle: "Aber, wo geht's hin?",
+    directionsWhereTitle: "Aber wo geht's hin?",
     directionsWhere: "Es geht nach: Villa del Leyva, Kolumbien",
     directionsTravel:
       "Anreise: Der Ort ist drei bis vier Stunden mit dem Auto oder Bus von Bogota entfernt.",
