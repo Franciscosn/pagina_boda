@@ -201,7 +201,7 @@ const applyVersionedImage = (imageElement, options) => {
     return;
   }
 
-  if (options.alt) {
+  if (options && Object.prototype.hasOwnProperty.call(options, "alt")) {
     imageElement.alt = options.alt;
   }
 
@@ -209,19 +209,37 @@ const applyVersionedImage = (imageElement, options) => {
   imageUrl.searchParams.set("v", window.__assetVersion || Date.now().toString());
   imageElement.src = imageUrl.toString();
 
-  imageElement.addEventListener("error", () => {
-    if (imageElement.dataset.fallbackLoaded === "1") {
-      return;
-    }
+  if (options && options.fallbackPath) {
+    imageElement.addEventListener("error", () => {
+      if (imageElement.dataset.fallbackLoaded === "1") {
+        return;
+      }
 
-    imageElement.dataset.fallbackLoaded = "1";
-    imageElement.src = `${options.fallbackPath}?v=${window.__assetVersion || Date.now().toString()}`;
-  });
+      imageElement.dataset.fallbackLoaded = "1";
+      imageElement.src = `${options.fallbackPath}?v=${window.__assetVersion || Date.now().toString()}`;
+    });
+  }
 };
 
 applyVersionedImage(document.getElementById("topHeroImage"), {
   alt: text.topImageAlt,
   fallbackPath: "../assets/top-hero-fallback.svg",
+});
+
+applyVersionedImage(document.getElementById("dateCakeIcon"), {
+  alt: "",
+});
+
+applyVersionedImage(document.getElementById("dateDancersIcon"), {
+  alt: "",
+});
+
+applyVersionedImage(document.getElementById("dateWineIcon"), {
+  alt: "",
+});
+
+applyVersionedImage(document.getElementById("dateRingsIcon"), {
+  alt: "",
 });
 
 applyVersionedImage(document.getElementById("directionsImage"), {
