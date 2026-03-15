@@ -27,7 +27,9 @@ const TEXT_BY_LOCALE = {
     journeyTextFinal:
       "Wir würden uns unglaublich freuen, wenn wir gemeinsam diesen schönen Moment feiern könnten.",
     directionsWhereTitle: "Aber wo geht's hin?",
-    directionsWhere: "Es geht nach: Villa del Leyva, Kolumbien",
+    directionsWhereLead: "Es geht nach",
+    directionsWherePlace: "Villa del Leyva",
+    directionsWhereCountry: "Kolumbien",
     directionsTravel:
       "Anreise: Der Ort ist drei bis vier Stunden mit dem Auto oder Bus von Bogota entfernt.",
     directionsMoreInfo: "mehr Infos kommen bald. Meldet euch gerne bei Fragen.",
@@ -75,7 +77,9 @@ const TEXT_BY_LOCALE = {
     journeyTextBoat: "o llegues en avion...",
     journeyTextFinal: "Nos haria muchisima ilusion celebrar juntos este momento tan bonito.",
     directionsWhereTitle: "Pero, adonde vamos?",
-    directionsWhere: "Vamos a: Villa de Leyva, Colombia",
+    directionsWhereLead: "Vamos a",
+    directionsWherePlace: "Villa de Leyva",
+    directionsWhereCountry: "Colombia",
     directionsTravel:
       "Llegada: El lugar esta a tres o cuatro horas de Bogota en coche o en bus.",
     directionsMoreInfo: "Mas informacion pronto. Escribannos si tienen preguntas.",
@@ -123,7 +127,9 @@ const TEXT_BY_LOCALE = {
     journeyTextBoat: "or arrive by plane...",
     journeyTextFinal: "We would be incredibly happy if we could celebrate this beautiful moment together.",
     directionsWhereTitle: "But where are we going?",
-    directionsWhere: "We are heading to: Villa de Leyva, Colombia",
+    directionsWhereLead: "We are heading to",
+    directionsWherePlace: "Villa de Leyva",
+    directionsWhereCountry: "Colombia",
     directionsTravel:
       "Travel: The place is about three to four hours from Bogota by car or bus.",
     directionsMoreInfo: "More info is coming soon. Feel free to contact us with any questions.",
@@ -266,10 +272,11 @@ applyVersionedImage(document.getElementById("villaImage"), {
 
 const thread = document.getElementById("chatThread");
 const chatPhone = document.getElementById("chatPhone");
+const chatStage = document.getElementById("chatStage");
 const postChatSection = document.getElementById("postChatSection");
 const directionsSection = document.getElementById("directionsSection");
 
-if (!thread || !chatPhone) {
+if (!thread || !chatPhone || !chatStage) {
   throw new Error("Chat structure not found");
 }
 
@@ -283,6 +290,8 @@ const previewSection =
       ? "travel"
       : previewMode === "storyflow"
         ? "storyflow"
+        : previewMode === "intro"
+          ? "intro"
         : "";
 
 if (previewSection) {
@@ -297,19 +306,37 @@ let touchStartY = null;
 
 const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const isChatFullyVisible = () => {
+const isChatReadingZoneActive = () => {
   const rect = chatPhone.getBoundingClientRect();
   const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-  const visible = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
-  const visibilityRatio = visible / rect.height;
-  return visibilityRatio >= 0.87;
+  return rect.top <= viewportHeight * 0.9 && rect.bottom >= viewportHeight * 0.2;
+};
+
+const anchorChatStage = () => {
+  if (previewSection) {
+    return;
+  }
+
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  const stageTop = window.scrollY + chatStage.getBoundingClientRect().top;
+  const topOffset = Math.max(16, viewportHeight * 0.05);
+  const targetTop = Math.max(0, stageTop - topOffset);
+
+  window.scrollTo({
+    top: targetTop,
+    behavior: isReducedMotion ? "auto" : "smooth",
+  });
 };
 
 const syncRevealLockState = () => {
-  const shouldLock = revealLocked && isChatFullyVisible();
+  const shouldLock = revealLocked && isChatReadingZoneActive();
 
   if (shouldLock === revealModeActive) {
     return;
+  }
+
+  if (shouldLock && !revealModeActive) {
+    anchorChatStage();
   }
 
   revealModeActive = shouldLock;
@@ -463,6 +490,7 @@ if (revealItems.length <= 1) {
 
 if (
   previewMode === "all" ||
+  previewMode === "intro" ||
   previewMode === "directions" ||
   previewMode === "travel" ||
   previewMode === "storyflow"
