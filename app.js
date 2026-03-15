@@ -303,12 +303,15 @@ let revealLocked = true;
 let revealCooldown = false;
 let revealModeActive = false;
 let touchStartY = null;
+let chatAnchorTimeout = 0;
 
 const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const getViewportHeight = () => window.innerHeight || document.documentElement.clientHeight;
 
 const getChatStageRect = () => chatStage.getBoundingClientRect();
+
+const getChatPhoneRect = () => chatPhone.getBoundingClientRect();
 
 const getChatAnchorTop = () => {
   const viewportHeight = getViewportHeight();
@@ -317,14 +320,18 @@ const getChatAnchorTop = () => {
   return Math.max(0, stageTop - topOffset);
 };
 
-const getChatAnchorTolerance = () => Math.max(10, getViewportHeight() * 0.02);
-
-const isChatAnchored = () => Math.abs(window.scrollY - getChatAnchorTop()) <= getChatAnchorTolerance();
+const isChatReadingZoneActive = () => {
+  const rect = getChatPhoneRect();
+  const viewportHeight = getViewportHeight();
+  const topThreshold = Math.max(12, viewportHeight * 0.03);
+  const bottomThreshold = Math.max(18, viewportHeight * 0.03);
+  return rect.top >= topThreshold - 2 && rect.bottom <= viewportHeight - bottomThreshold + 2;
+};
 
 const isNearChatStage = () => {
   const rect = getChatStageRect();
   const viewportHeight = getViewportHeight();
-  return rect.top <= viewportHeight * 0.82 && rect.bottom >= viewportHeight * 0.18;
+  return rect.top <= viewportHeight * 0.55 && rect.bottom >= viewportHeight * 0.25;
 };
 
 const shouldCaptureChatEntrance = () => {
@@ -332,45 +339,56 @@ const shouldCaptureChatEntrance = () => {
     return false;
   }
 
-  return isNearChatStage() && !isChatAnchored();
+  return isNearChatStage() && !isChatReadingZoneActive();
 };
 
-const moveTowardChatAnchor = (distance) => {
+const scheduleChatLockSync = () => {
+  window.clearTimeout(chatAnchorTimeout);
+  chatAnchorTimeout = window.setTimeout(() => {
+    syncRevealLockState();
+  }, isReducedMotion ? 20 : 80);
+};
+
+const anchorChatStage = () => {
+  if (previewSection) {
+    return;
+  }
+
+  const targetTop = getChatAnchorTop();
+
+  if (Math.abs(window.scrollY - targetTop) < 2) {
+    return;
+  }
+
+  window.scrollTo({
+    top: targetTop,
+    behavior: "auto",
+  });
+
+  scheduleChatLockSync();
+};
+
+const captureChatEntrance = () => {
   if (!shouldCaptureChatEntrance()) {
     return false;
   }
 
-  const targetTop = getChatAnchorTop();
-  const currentTop = window.scrollY;
-  const offset = targetTop - currentTop;
-  const remainingDistance = Math.abs(offset);
-
-  if (remainingDistance <= getChatAnchorTolerance()) {
-    syncRevealLockState();
-    return false;
-  }
-
-  const baseDistance = Math.max(24, Math.abs(distance) * 0.7);
-  const step = Math.min(baseDistance, 180, remainingDistance);
-
-  window.scrollTo({
-    top: currentTop + Math.sign(offset) * step,
-    behavior: "auto",
-  });
-
-  syncRevealLockState();
+  anchorChatStage();
   return true;
 };
 
 const syncRevealLockState = () => {
-  const shouldLock = revealLocked && !previewSection && isChatAnchored();
+  if (captureChatEntrance()) {
+    return;
+  }
+
+  const shouldLock = revealLocked && isChatReadingZoneActive();
 
   if (shouldLock === revealModeActive) {
     return;
   }
 
   revealModeActive = shouldLock;
-  document.documentElement.classList.toggle("reveal-locked", shouldLock);
   document.body.classList.toggle("reveal-locked", shouldLock);
   thread.classList.toggle("reveal-locked", shouldLock);
 };
@@ -391,7 +409,6 @@ const releaseScroll = () => {
 
   revealLocked = false;
   revealModeActive = false;
-  document.documentElement.classList.remove("reveal-locked");
   document.body.classList.remove("reveal-locked");
   thread.classList.remove("reveal-locked");
   thread.classList.add("chat-complete");
@@ -430,21 +447,27 @@ const revealStepFromScroll = () => {
   return true;
 };
 
-const shouldHoldForwardScrollAtChat = () => revealLocked && isChatAnchored();
+const tryAdvanceReveal = () => {
+  if (captureChatEntrance()) {
+    syncRevealLockState();
+    return true;
+  }
+
+  return revealStepFromScroll();
+};
 
 const onWheel = (event) => {
   if (Math.abs(event.deltaY) < 4) {
     return;
   }
 
-  if (event.deltaY > 0 && moveTowardChatAnchor(event.deltaY)) {
+  if (event.deltaY > 0 && tryAdvanceReveal()) {
     event.preventDefault();
     return;
   }
 
-  if (event.deltaY > 0 && shouldHoldForwardScrollAtChat()) {
+  if (revealModeActive) {
     event.preventDefault();
-    revealStepFromScroll();
   }
 };
 
@@ -463,24 +486,18 @@ const onTouchMove = (event) => {
   }
 
   const isForwardSwipe = currentY < touchStartY;
-  const swipeDistance = Math.abs(currentY - touchStartY);
 
-  if (isForwardSwipe && moveTowardChatAnchor(swipeDistance)) {
+  if (isForwardSwipe && tryAdvanceReveal()) {
     event.preventDefault();
     touchStartY = currentY;
     return;
   }
 
-  if (isForwardSwipe && shouldHoldForwardScrollAtChat()) {
+  if (revealModeActive) {
     event.preventDefault();
-    revealStepFromScroll();
   }
 
   touchStartY = currentY;
-};
-
-const onTouchEnd = () => {
-  touchStartY = null;
 };
 
 const onKeyDown = (event) => {
@@ -494,14 +511,13 @@ const onKeyDown = (event) => {
 
   const isForwardKey = ["ArrowDown", "PageDown", " ", "Spacebar"].includes(event.key);
 
-  if (isForwardKey && moveTowardChatAnchor(getViewportHeight() * 0.38)) {
+  if (isForwardKey && tryAdvanceReveal()) {
     event.preventDefault();
     return;
   }
 
-  if (isForwardKey && shouldHoldForwardScrollAtChat()) {
+  if (revealModeActive) {
     event.preventDefault();
-    revealStepFromScroll();
   }
 };
 
@@ -540,9 +556,8 @@ revealInitialItem();
 syncRevealLockState();
 
 window.addEventListener("wheel", onWheel, { passive: false });
-document.addEventListener("touchstart", onTouchStart, { passive: true });
-document.addEventListener("touchmove", onTouchMove, { passive: false });
-document.addEventListener("touchend", onTouchEnd, { passive: true });
+window.addEventListener("touchstart", onTouchStart, { passive: true });
+window.addEventListener("touchmove", onTouchMove, { passive: false });
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("scroll", syncRevealLockState, { passive: true });
 window.addEventListener("resize", syncRevealLockState);
