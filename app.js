@@ -226,19 +226,7 @@ applyVersionedImage(document.getElementById("topHeroImage"), {
   fallbackPath: "../assets/top-hero-fallback.svg",
 });
 
-applyVersionedImage(document.getElementById("dateCakeIcon"), {
-  alt: "",
-});
-
-applyVersionedImage(document.getElementById("dateDancersIcon"), {
-  alt: "",
-});
-
-applyVersionedImage(document.getElementById("dateWineIcon"), {
-  alt: "",
-});
-
-applyVersionedImage(document.getElementById("dateRingsIcon"), {
+applyVersionedImage(document.getElementById("dateCoupleIcon"), {
   alt: "",
 });
 
