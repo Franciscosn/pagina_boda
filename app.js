@@ -303,13 +303,50 @@ let revealLocked = true;
 let revealCooldown = false;
 let revealModeActive = false;
 let touchStartY = null;
+let chatAnchorTimeout = 0;
 
 const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const getViewportHeight = () => window.innerHeight || document.documentElement.clientHeight;
+
+const getChatStageRect = () => chatStage.getBoundingClientRect();
+
+const getChatPhoneRect = () => chatPhone.getBoundingClientRect();
+
+const getChatAnchorTop = () => {
+  const viewportHeight = getViewportHeight();
+  const stageTop = window.scrollY + getChatStageRect().top;
+  const topOffset = Math.max(12, viewportHeight * 0.03);
+  return Math.max(0, stageTop - topOffset);
+};
+
 const isChatReadingZoneActive = () => {
-  const rect = chatPhone.getBoundingClientRect();
-  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-  return rect.top <= viewportHeight * 0.9 && rect.bottom >= viewportHeight * 0.2;
+  const rect = getChatPhoneRect();
+  const viewportHeight = getViewportHeight();
+  const topThreshold = Math.max(12, viewportHeight * 0.03);
+  const bottomThreshold = Math.max(18, viewportHeight * 0.03);
+  return rect.top >= topThreshold - 2 && rect.bottom <= viewportHeight - bottomThreshold + 2;
+};
+
+const isNearChatStage = () => {
+  const rect = getChatStageRect();
+  const viewportHeight = getViewportHeight();
+  return rect.top <= viewportHeight * 0.55 && rect.bottom >= viewportHeight * 0.25;
+};
+
+const shouldCaptureChatEntrance = () => {
+  if (!revealLocked || previewSection) {
+    return false;
+  }
+
+  return isNearChatStage() && !isChatReadingZoneActive();
+};
+
+const scheduleChatLockSync = () => {
+  window.clearTimeout(chatAnchorTimeout);
+  chatAnchorTimeout = window.setTimeout(() => {
+    syncRevealLockState();
+  }, isReducedMotion ? 20 : 80);
 };
 
 const anchorChatStage = () => {
@@ -317,26 +354,38 @@ const anchorChatStage = () => {
     return;
   }
 
-  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-  const stageTop = window.scrollY + chatStage.getBoundingClientRect().top;
-  const topOffset = Math.max(16, viewportHeight * 0.05);
-  const targetTop = Math.max(0, stageTop - topOffset);
+  const targetTop = getChatAnchorTop();
+
+  if (Math.abs(window.scrollY - targetTop) < 2) {
+    return;
+  }
 
   window.scrollTo({
     top: targetTop,
-    behavior: isReducedMotion ? "auto" : "smooth",
+    behavior: "auto",
   });
+
+  scheduleChatLockSync();
+};
+
+const captureChatEntrance = () => {
+  if (!shouldCaptureChatEntrance()) {
+    return false;
+  }
+
+  anchorChatStage();
+  return true;
 };
 
 const syncRevealLockState = () => {
+  if (captureChatEntrance()) {
+    return;
+  }
+
   const shouldLock = revealLocked && isChatReadingZoneActive();
 
   if (shouldLock === revealModeActive) {
     return;
-  }
-
-  if (shouldLock && !revealModeActive) {
-    anchorChatStage();
   }
 
   revealModeActive = shouldLock;
@@ -398,12 +447,26 @@ const revealStepFromScroll = () => {
   return true;
 };
 
+const tryAdvanceReveal = () => {
+  if (captureChatEntrance()) {
+    syncRevealLockState();
+    return true;
+  }
+
+  return revealStepFromScroll();
+};
+
 const onWheel = (event) => {
   if (Math.abs(event.deltaY) < 4) {
     return;
   }
 
-  if (revealStepFromScroll()) {
+  if (event.deltaY > 0 && tryAdvanceReveal()) {
+    event.preventDefault();
+    return;
+  }
+
+  if (revealModeActive) {
     event.preventDefault();
   }
 };
@@ -422,7 +485,15 @@ const onTouchMove = (event) => {
     return;
   }
 
-  if (revealStepFromScroll()) {
+  const isForwardSwipe = currentY < touchStartY;
+
+  if (isForwardSwipe && tryAdvanceReveal()) {
+    event.preventDefault();
+    touchStartY = currentY;
+    return;
+  }
+
+  if (revealModeActive) {
     event.preventDefault();
   }
 
@@ -438,7 +509,14 @@ const onKeyDown = (event) => {
     return;
   }
 
-  if (revealStepFromScroll()) {
+  const isForwardKey = ["ArrowDown", "PageDown", " ", "Spacebar"].includes(event.key);
+
+  if (isForwardKey && tryAdvanceReveal()) {
+    event.preventDefault();
+    return;
+  }
+
+  if (revealModeActive) {
     event.preventDefault();
   }
 };
