@@ -32,7 +32,7 @@ const TEXT_BY_LOCALE = {
     directionsWhereCountry: "Kolumbien",
     directionsTravel:
       "Anreise: Der Ort ist drei bis vier Stunden mit dem Auto oder Bus von Bogota entfernt.",
-    directionsMoreInfo: "mehr Infos kommen bald. Meldet euch gerne bei Fragen.",
+    directionsMoreInfo: "Mehr Infos kommen bald. Meldet euch gerne bei Fragen.",
     ctaComing: "Ich komme",
     ctaSorry: "Ich kann leider nicht",
     ctaMaybe: "Ich weiß es noch nicht",
